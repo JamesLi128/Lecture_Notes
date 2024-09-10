@@ -1,0 +1,15 @@
+[0] Config.pm:307> INFO - This is Biber 2.19
+[0] Config.pm:310> INFO - Logfile is 'Bayesian_Statistics.blg'
+[38] biber-darwin:340> INFO - === Mon Sep  9, 2024, 23:22:00
+[47] Biber.pm:419> INFO - Reading 'Bayesian_Statistics.bcf'
+[93] Biber.pm:979> INFO - Found 1 citekeys in bib section 0
+[101] Biber.pm:4419> INFO - Processing section 0
+[106] Biber.pm:4610> INFO - Looking for bibtex file 'ref.bib' for section 0
+[107] bibtex.pm:1713> INFO - LaTeX decoding ...
+[109] bibtex.pm:1519> INFO - Found BibTeX data source 'ref.bib'
+[128] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[128] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[128] Biber.pm:4239> INFO - Sorting list 'anyt/global//global/global' of type 'entry' with template 'anyt' and locale 'en-US'
+[128] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
+[131] bbl.pm:660> INFO - Writing 'Bayesian_Statistics.bbl' with encoding 'UTF-8'
+[132] bbl.pm:763> INFO - Output to Bayesian_Statistics.bbl
