@@ -1,9 +1,9 @@
 [0] Config.pm:307> INFO - This is Biber 2.19
 [0] Config.pm:310> INFO - Logfile is 'Bayesian_Statistics.blg'
-[36] biber-darwin:340> INFO - === Mon Sep  9, 2024, 23:40:14
-[44] Biber.pm:419> INFO - Reading 'Bayesian_Statistics.bcf'
-[90] Biber.pm:979> INFO - Found 0 citekeys in bib section 0
-[98] bbl.pm:660> INFO - Writing 'Bayesian_Statistics.bbl' with encoding 'UTF-8'
-[98] bbl.pm:763> INFO - Output to Bayesian_Statistics.bbl
-[98] Biber.pm:131> WARN - The file 'Bayesian_Statistics.bcf' does not contain any citations!
-[98] Biber.pm:133> INFO - WARNINGS: 1
+[41] biber-darwin:340> INFO - === Tue Sep 10, 2024, 16:13:56
+[51] Biber.pm:419> INFO - Reading 'Bayesian_Statistics.bcf'
+[97] Biber.pm:979> INFO - Found 0 citekeys in bib section 0
+[105] bbl.pm:660> INFO - Writing 'Bayesian_Statistics.bbl' with encoding 'UTF-8'
+[105] bbl.pm:763> INFO - Output to Bayesian_Statistics.bbl
+[105] Biber.pm:131> WARN - The file 'Bayesian_Statistics.bcf' does not contain any citations!
+[105] Biber.pm:133> INFO - WARNINGS: 1

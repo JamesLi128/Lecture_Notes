@@ -1,3 +1,117 @@
 \chapter{Introduction and Notation}
 
-The core difference between a Bayesian and a frenquencist is the belief on whether the latent or the parameter $\theta$ is a random variable or a constant. One of the major impacts is that iid assumptions changes to conditional independence instead of mutual independence due to the connection between $\theta$ and $Y$ through the joint distribution $\bf{P}(Y_i, \theta_j)$
+The core difference between a Bayesian and a frenquencist is the belief on whether the latent or the parameter $\theta$ is a random variable or a constant. One of the major impacts is that iid assumptions changes to conditional independence instead of mutual independence due to the connection between $\theta$ and $Y$ through the joint distribution $\bf{P}(Y_i, \theta_j)$, where the marginal distribution of $Y_i$ are parametrized by $\theta$. Before everything, we should introduce some simple notations.
+
+\section{Notation}
+\begin{enumerate}
+    \item[-] $\mathcal{Y}$ denote the set of all possible observation values
+    \item[-] $Y$ denote the random variable
+    \item[-] $y$ denote the value of a single observation
+    \item[-] $\Theta$ is the space of parameters
+\end{enumerate}
+
+\begin{note}
+    Let $\theta \in \Theta$, define $\pi(\theta)$ or $p(\theta)$ as the prior distribution.
+\end{note}
+
+\begin{note}
+    For any $\theta \in \Theta, \; y \in Y$, $\bf{P}(y|\theta)$ describes the sampling model 
+\end{note}
+
+\begin{note}
+    Let $\theta \in \Theta$, the posterior distribution $\bf{P}(\theta | y)$ describes our belief about the parameters based on samples.
+\end{note}
+
+\begin{theorem}[Bayes' Rule]
+    \begin{equation}
+        \bf{P}(\theta|y) = \frac{\bf{P}(y|\theta)\pi(\theta)}{\bf{P}(y)}
+    \end{equation}
+\end{theorem}
+
+\begin{example}
+    Suppose $\theta \in [0,1]$, and $Y_i|\theta \sim Bernoulli(\theta)$ with sample size 20. Then let $y|\theta = \sum Y_i \sim Binomial(20, \theta)$. We will see how the choice of the prior has on the posterior with $\theta \sim Beta(a,b)$, we have
+    
+    \begin{equation*}
+        \mathbb{E}[\theta] = \frac{a}{a+b}, \qquad mode[\theta] = \frac{a-1}{a-1+b-1}
+    \end{equation*}
+
+    Usually, from a prior sampling, we denote $a$ be the number of events counted, and $b$ as the total sample size. In this case, say the event happens twice, we have
+
+    \begin{equation*}
+        \theta \sim Beta(2, 20)
+    \end{equation*}
+
+    We know that the pdf of $Beta(a,b)$ is 
+
+    \begin{equation*}
+        pdf(\theta) = \frac{\Gamma(a + b)}{\Gamma(a)\Gamma(b)}\theta^{a-1}(1-\theta)^{b-1}, \; \theta \in [0,1]
+    \end{equation*}
+
+    Using Bayes' Rule, we have 
+    \begin{align*}
+        \bf{P}(\theta|Y_1, \ldots, Y_{20}) &\propto \bf{P}(Y_1, \ldots, Y_{20}|\theta) \cdot \pi(\theta) \\
+        &\propto \theta^{\sum Y_i}(1-\theta)^{n - \sum Y_i} \cdot \theta^{a-1}(1-\theta)^{b-1} \\
+        &=\theta^{a + y - 1} (1-\theta)^{b + n - y - 1}\\
+        &\sim Beta(a + y, b + n - y)
+    \end{align*}
+
+    This means, amazingly, the posterior falls in the same family of distribution like the prior. For priors like this, we give them a special name: Conjugate Prior. 
+\end{example}
+
+From the example, we can derive
+\begin{equation*}
+    \mathbb{E}[\theta] = \frac{a}{a+b}, \qquad mean(sample) = \frac{y}{n}, \qquad \mathbb{E}[\theta | y] = \frac{a + y}{a+ b + n}
+\end{equation*}
+
+With a little massage, we have
+\begin{equation*}
+    \mathbb{E}[\theta|y] = \frac{a+b}{a+b+n} \cdot \frac{a}{a+b} + \frac{n}{a+b+n} \cdot \frac{\sum y_i}{n}
+\end{equation*}
+
+This break down is intriguing because the posterior mean is in fact the weighted sum of the prior mean and sample mean, implying insensitivity to the prior as $n\rightarrow \infty$ since the weight dominates. We can further conclude the above example with the following proposition:
+
+\begin{proposition}\label{Prop:Bernoulli+Beta Conjugate Prior}
+    With $Y_i|\theta \sim Bernoulli(\theta)$ and $\theta \sim Beta(a,b)$ as the conjugate prior, we have the posterior $\theta | Y_1, \ldots, Y_n \sim Beta(a + \sum Y_i, b + n - \sum Y_i)$
+\end{proposition}
+
+\begin{remark}
+    \begin{equation*}
+        Uniform[0,1] = Beta(1,1)
+    \end{equation*}
+\end{remark}
+
+\section{One-parameter Models}
+
+In this section, we talk about single-parameter models, where the example in \autoref{Prop:Bernoulli+Beta Conjugate Prior} about Bernoulli with Beta priors was a perfect example. Let's start with a closer look at the posterior with uniform prior:
+\begin{equation*}
+    \bf{P}(\theta | Y_1, \ldots, Y_n) 
+    \;\propto\; \bf{P}(Y_1, \ldots, Y_n | \theta) \cdot \pi(\theta) 
+    \; = \; \theta^{\sum Y_i}(1-\theta)^{n - \sum Y_i}
+\end{equation*}
+By observing the last term, the posterior distribution is determined by the statistic $\sum Y_i$(we assume sample size known at all time). This means we don't need to examine the exact values of $Y_i$, but the sum would be enough/sufficient to find out the parameters of the posterior. As a result, we say the sum $\sum Y_i$ is the sufficient statistic of the posterior distribution.
+
+\begin{definition}[Sufficient Statistics]
+    Given any subject $\mathcal{S}$ we are trying to estimate, a distribution, a parameter, or even another statistic, a statistic $T(Y_i)$ is a sufficient statistic of $\mathcal{S}$ if $T(Y_i)$ contains enough information for us to determine that subject.
+\end{definition}
+
+In the previous section, we also mentioned the rough idea of a conjugate prior, now we give it a formal definition:
+\begin{definition}[Conjugate Prior]
+    A class of prior distributions $\mathcal{P}$ for $\theta$ is called conjugate for a sampling model $\bf{P}(Y|\theta)$ if
+    \begin{equation*}
+        \pi(\theta) \in \mathcal{P} \Rightarrow \bf{P}(\theta | Y) \in \mathcal{P}
+    \end{equation*}
+\end{definition}
+
+Now we see how these two concepts play together with the following example.
+\begin{example}
+    Previously we have talked about the posterior conditioned over the entire sequence, $\theta | Y_1, \ldots, Y_n$. What would happen if we instead condition the parameter with posterior's sufficient statistic? i.e. $\theta | y=\sum_{i=1}^{n}Y_i$
+
+    \begin{align*}
+        \bf{P}(\theta | y) &\propto \bf{P}(y | \theta) \cdot \pi(\theta) \\
+        &= \binom{n}{y} \theta^{y}(1-\theta)^{n-y} \theta^{a-1}(1-\theta)^{b-1} \\
+        &\propto \theta^{a + y - 1}(1-\theta)^{b + n - y - 1} \\
+        &\sim Beta(a+y, b+n-y)
+    \end{align*}
+
+    Surprisingly, it looks the same as $\theta | Y_1, \ldots, Y_n$! This is because $y$ is the sufficient statistic for the posterior distribution with sampling model Bernoulli and prior Beta. 
+\end{example}
