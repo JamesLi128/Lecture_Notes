@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.9.1)  9 SEP 2024 23:56
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.9.1)  9 SEP 2024 23:39
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/Users/james/Documents/Lecture_Notes/2024_FALL_JHU/Bayesian_Statistics/Bayesian_Statistics.tex
-(/Users/james/Documents/Lecture_Notes/2024_FALL_JHU/Bayesian_Statistics/Bayesian_Statistics.tex
+**/Users/james/Documents/Lecture_Notes/LaTeX-Template/Note/master.tex
+(/Users/james/Documents/Lecture_Notes/LaTeX-Template/Note/master.tex
 LaTeX2e <2022-11-01> patch level 1
 L3 programming layer <2023-02-22> (/usr/local/texlive/2023/texmf-dist/tex/latex/base/report.cls
 Document Class: report 2022/07/02 v1.4n Standard LaTeX document class
@@ -1347,8 +1347,8 @@ Package: centernot 2016/05/16 v1.4 Centers the not symbol horizontally (HO)
 \@quotelevel=\count515
 \@quotereset=\count516
 Package translations Info: No language package found. I am going to use `english' as default language. on input line 12.
- (./Bayesian_Statistics.aux)
-\openout1 = `Bayesian_Statistics.aux'.
+ (./master.aux)
+\openout1 = `master.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 12.
 LaTeX Font Info:    ... okay on input line 12.
@@ -1376,17 +1376,17 @@ File: english.lbx 2023/03/05 v3.19 biblatex localization (PK/MW)
 Package biblatex Info: Input encoding 'utf8' detected.
 Package biblatex Info: Automatic encoding selection.
 (biblatex)             Assuming data encoding 'utf8'.
-\openout3 = `Bayesian_Statistics.bcf'.
+\openout3 = `master.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'Bayesian_Statistics.bbl' found.
- (./Bayesian_Statistics.bbl)
+Package biblatex Info: ... file 'master.bbl' found.
+ (./master.bbl)
 Package biblatex Info: Reference section=0 on input line 12.
 Package biblatex Info: Reference segment=0 on input line 12.
 Package hyperref Info: Link coloring ON on input line 12.
- (./Bayesian_Statistics.out) (./Bayesian_Statistics.out)
+ (./master.out) (./master.out)
 \@outlinefile=\write5
-\openout5 = `Bayesian_Statistics.out'.
+\openout5 = `master.out'.
 
  (/usr/local/texlive/2023/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -1501,52 +1501,75 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has b
 l.18 \end{abstract}
                     [1]
 Package marginnote Info: Using workaround for absolute page number on input line 18.
- (./Bayesian_Statistics.toc)
+ (./master.toc
+
+LaTeX Warning: Reference `thm' on page 1 undefined on input line 2.
+
+)
 \tf@toc=\write6
-\openout6 = `Bayesian_Statistics.toc'.
+\openout6 = `master.toc'.
 
-
+ (/usr/local/texlive/2023/texmf-dist/tex/latex/tools/.tex File ignored)
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.24 \newpage
+l.26 \newpage
               [1
 
 ]
-Package marginnote Info: Using workaround for absolute page number on input line 24.
- (./Chapters/Intro.tex
-Chapter 1.
-) [2
+Package marginnote Info: Using workaround for absolute page number on input line 26.
+ [2
 
-] [3
+] (./appendix.tex
+Appendix A.
+
+LaTeX Warning: Reference `thm' on page 3 undefined on input line 2.
+
+
+LaTeX Warning: Reference `thm' on page 3 undefined on input line 3.
+
+LaTeX Font Info:    Trying to load font information for T1+cmss on input line 4.
+(/usr/local/texlive/2023/texmf-dist/tex/latex/base/t1cmss.fd
+File: t1cmss.fd 2022/07/10 v2.5l Standard LaTeX font definitions
+)
+
+LaTeX Warning: Reference `thm' on page 3 undefined on input line 4.
+
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 4.
+) [3
 
 ]
 
-LaTeX Warning: Empty bibliography on input line 36.
+LaTeX Warning: Empty bibliography on input line 35.
 
-(./Bayesian_Statistics.aux)
+(./master.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package rerunfilecheck Info: File `Bayesian_Statistics.out' has not changed.
-(rerunfilecheck)             Checksum: F3E82711055FDA08101079C78CABE99E;174.
-Package logreq Info: Writing requests to 'Bayesian_Statistics.run.xml'.
-\openout1 = `Bayesian_Statistics.run.xml'.
+
+LaTeX Warning: There were undefined references.
+
+Package rerunfilecheck Info: File `master.out' has not changed.
+(rerunfilecheck)             Checksum: 6AA9D318F856FF5FC7E52CBAD521C5D5;249.
+Package logreq Info: Writing requests to 'master.run.xml'.
+\openout1 = `master.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 52832 strings out of 476025
- 1198545 string characters out of 5790018
- 2014018 words of memory out of 5000000
- 72400 multiletter control sequences out of 15000+600000
- 532537 words of font info for 96 fonts, out of 8000000 for 9000
+ 52992 strings out of 476025
+ 1202630 string characters out of 5790018
+ 2015078 words of memory out of 5000000
+ 72552 multiletter control sequences out of 15000+600000
+ 535600 words of font info for 100 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 108i,6n,100p,1351b,910s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb>
-Output written on Bayesian_Statistics.pdf (5 pages, 124304 bytes).
+ 108i,10n,100p,1324b,1108s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfsx1000.pfb>
+Output written on master.pdf (5 pages, 150989 bytes).
 PDF statistics:
- 93 PDF objects out of 1000 (max. 8388607)
- 63 compressed objects within 1 object stream
- 6 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 111 PDF objects out of 1000 (max. 8388607)
+ 77 compressed objects within 1 object stream
+ 7 named destinations out of 1000 (max. 500000)
+ 29 words of extra memory for PDF output out of 10000 (max. 10000000)
 
