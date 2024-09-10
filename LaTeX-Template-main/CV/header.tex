@@ -1,0 +1,116 @@
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage{comment}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[pdftex,colorlinks=true,linkcolor=blue,urlcolor=urlcolor]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{fontawesome}
+\usepackage{amsmath, amsfonts, mathtools, amsthm, amssymb}
+
+\definecolor{themecolor}{RGB}{228,105,71}
+\definecolor{urlcolor}{RGB}{100, 0, 100}
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.375in}
+\addtolength{\evensidemargin}{-0.375in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1in}
+
+\urlstyle{rm}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+      \color{themecolor}\vspace{-3pt}\scshape\raggedright\large
+}{}{0em}{}[\color{themecolor}\titlerule \vspace{-3pt}]
+
+\titleformat{\subsection}{
+      \color{themecolor}\vspace{-3pt}\scshape\raggedright\large
+}{}{0em}{}[\vspace{-3pt}]
+
+\newcommand*{\Me}{{\color{themecolor!70!black} \textbf{\author}}}
+
+\renewcommand{\url}[1]{\href{#1}{\webpagesymbol}}
+
+%──────────────────Customized List──────────────────────────────────────────────────────────────────────────────────────────────────────-------------
+
+% heading
+\setlist[itemize, 1]{leftmargin=*, label=\(\centerdot\)}
+\setlist[itemize, 2]{after=\vspace{-2pt}, label=\(\circ\)}
+
+\newcommand{\heading}[4]{
+      \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+            \textbf{#1} & \textbf{#2} \\
+            \emph{\small#3} & \emph{\small #4} \\
+      \end{tabular*}\vspace{-5pt}
+}
+
+
+\newcommand{\detail}[3]{{\small{\expandafter\ifx\expandafter\relax\detokenize{#1}\relax
+                              \textnormal{#2}
+                        \else
+                              \textnormal{\textbf{#1}: #2}
+                        \fi
+                        \expandafter\ifx\expandafter\relax\detokenize{#3}\relax
+                        \else
+                              \hfill\textnormal{\emph{#3}}{\parfillskip=6pt\par}%
+                        \fi
+                        \vspace{-1pt}
+                  }
+            }
+}
+
+
+% publication
+\newlist{publication@}{enumerate}{1}
+\setlist[publication@]{}
+\newenvironment{publication}[1][]{\begin{publication@}[label={[#1\arabic*]}]}{\end{publication@}}
+
+\newcommand{\pub}[5]{{\small{#1, ``#2''.
+                        \expandafter\ifx\expandafter\relax\detokenize{#4}\relax
+                              \textnormal{\emph{#3}}
+                        \else
+                              \textnormal{In \emph{#3}}
+                        \fi
+                        \expandafter\ifx\expandafter\relax\detokenize{#4}\relax
+                        \else
+                              \textnormal{(#4)}
+                        \fi
+                        \expandafter\ifx\expandafter\relax\detokenize{#5}\relax
+                        \else
+                              \href{#5}{\color{themecolor!70!white}{\faFilePdfO}}
+                        \fi
+                        \vspace{-2pt}
+                  }
+            }
+}
+
+%──────────────────Head──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+\newcommand*{\emailsymbol}{{\small\faEnvelopeO}~}
+\newcommand*{\mobilephonesymbol}{{\Large\faMobilePhone}~}
+\newcommand*{\homepagesymbol}{{\small\faHome}~}
+\newcommand*{\webpagesymbol}{{\small\faGlobe}~}
+
+
+\newcommand*{\head}{\begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+            \Huge{\Me} & \emailsymbol \href{mailto:\Email}{\color{themecolor!70!white}{\Email}}\\
+            \href{\Home}{\color{themecolor!70!white}{\homepagesymbol}}%
+            \href{\GoogleScholar}{\color{themecolor!70!white}{\faGraduationCap}}
+            \href{\LinkedIn}{\color{themecolor!70!white}{\faLinkedinSquare}}
+            \href{\GitHub}{\color{themecolor!70!white}{\faGithub}}
+            & \mobilephonesymbol \phone \\
+      \end{tabular*}}
