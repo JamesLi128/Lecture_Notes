@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.9.1)  9 SEP 2024 23:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.9.1)  9 SEP 2024 23:25
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1590,12 +1590,12 @@ Package mdframed Info: mdframed detected package amsthm
 (mdframed)              on input line 67.
 Package hyperref Info: bookmark level for unknown prev defaults to 0 on input line 67.
  (./Figures/test.pdf_tex
-<./Figures//test.pdf, id=118, page=1, 682.86612pt x 99.58464pt>
+<./Figures//test.pdf, id=108, page=1, 682.86612pt x 99.58464pt>
 File: ./Figures//test.pdf Graphic file (type pdf)
 <use ./Figures//test.pdf, page 1>
 Package pdftex.def Info: ./Figures//test.pdf , page1 used on input line 56.
 (pdftex.def)             Requested size: 452.96826pt x 66.05882pt.
-<./Figures//test.pdf, id=119, page=2, 682.86612pt x 99.58464pt>
+<./Figures//test.pdf, id=109, page=2, 682.86612pt x 99.58464pt>
 File: ./Figures//test.pdf Graphic file (type pdf)
 <use ./Figures//test.pdf, page 2>
 Package pdftex.def Info: ./Figures//test.pdf , page2 used on input line 61.
@@ -1658,69 +1658,40 @@ Package mdframed Info: mdframed inside a box
  mdframed uses option nobreak mdframed on input line 152.
 Package mdframed Info: mdframed inside a box 
  mdframed uses option nobreak mdframed on input line 153.
-) (./Lectures/lec_2.tex [4]
-Chapter 2.
-Package marginnote Info: Margin note 9.1 is on absolute page 9 on input line 3.
-Package marginnote Info: right page because not two side mode on input line 3.
-Package marginnote Info: xpos seems to be 72.2698pt on input line 3.
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 10.
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 12.
-Package mdframed Info: mdframed inside a box 
- mdframed uses option nobreak mdframed on input line 13.
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 25.
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 28.
-Package hyperref Info: bookmark level for unknown claim defaults to 0 on input line 28.
-Package mdframed Info: mdframed inside a box 
- mdframed uses option nobreak mdframed on input line 29.
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 31.
-Package mdframed Info: mdframed inside a box 
- mdframed uses option nobreak mdframed on input line 43.
-[5
-
-]) [6] [7
+) [4] [5
 
 ] (./appendix.tex
 Appendix A.
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 4.
-) [8
+) [6
 
-] [9
+] [7
 
 ] (./Bayesian_Statistics.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `Bayesian_Statistics.out' has not changed.
-(rerunfilecheck)             Checksum: 9136323F50C811983F3FC828295ECB3A;1125.
+(rerunfilecheck)             Checksum: 9C557BE7BF5BAE2CB722BDFD7299201F;915.
 Package logreq Info: Writing requests to 'Bayesian_Statistics.run.xml'.
 \openout1 = `Bayesian_Statistics.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 53738 strings out of 476025
- 1218517 string characters out of 5790018
- 2048420 words of memory out of 5000000
- 73207 multiletter control sequences out of 15000+600000
- 543567 words of font info for 112 fonts, out of 8000000 for 9000
+ 53697 strings out of 476025
+ 1217815 string characters out of 5790018
+ 2048120 words of memory out of 5000000
+ 73184 multiletter control sequences out of 15000+600000
+ 542791 words of font info for 111 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 108i,22n,100p,1351b,1795s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfcc1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfss0900.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfss1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfsx1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfti0600.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfti0700.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfti1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb>
-Output written on Bayesian_Statistics.pdf (11 pages, 438786 bytes).
+ 108i,22n,100p,1351b,1656s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfcc1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm0700.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfss0900.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfss1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfsx1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfti0600.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfti0700.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfti1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sftt0800.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb>
+Output written on Bayesian_Statistics.pdf (9 pages, 414773 bytes).
 PDF statistics:
- 389 PDF objects out of 1000 (max. 8388607)
- 300 compressed objects within 3 object streams
- 71 named destinations out of 1000 (max. 500000)
- 95 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 347 PDF objects out of 1000 (max. 8388607)
+ 262 compressed objects within 3 object streams
+ 57 named destinations out of 1000 (max. 500000)
+ 79 words of extra memory for PDF output out of 10000 (max. 10000000)
 

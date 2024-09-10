@@ -1,18 +1,17 @@
 # Fdb version 4
-["biber Bayesian_Statistics"] 1725938511 "Bayesian_Statistics.bcf" "Bayesian_Statistics.bbl" "Bayesian_Statistics" 1725938527 0
+["biber Bayesian_Statistics"] 1725938511 "Bayesian_Statistics.bcf" "Bayesian_Statistics.bbl" "Bayesian_Statistics" 1725938758 0
   "./ref.bib" 1725938345 230 0089041083ca21492e527b2a77c0601a ""
-  "Bayesian_Statistics.bcf" 1725938527 107872 dc4c09a612f1cfb6dd4739e67c96c1be "pdflatex"
+  "Bayesian_Statistics.bcf" 1725938758 107872 dc4c09a612f1cfb6dd4739e67c96c1be "pdflatex"
   (generated)
   "Bayesian_Statistics.bbl"
   "Bayesian_Statistics.blg"
   (rewritten before read)
-["pdflatex"] 1725938525 "/Users/james/Documents/Lecture_Notes/2024_FALL_JHU/Bayesian_Statistics/Bayesian_Statistics.tex" "Bayesian_Statistics.pdf" "Bayesian_Statistics" 1725938527 0
+["pdflatex"] 1725938756 "/Users/james/Documents/Lecture_Notes/2024_FALL_JHU/Bayesian_Statistics/Bayesian_Statistics.tex" "Bayesian_Statistics.pdf" "Bayesian_Statistics" 1725938758 0
   "../../LaTeX-Template/Math.tex" 1723957626 2477 6dcfa87aaef735a8f1f61bb98ea52144 ""
-  "/Users/james/Documents/Lecture_Notes/2024_FALL_JHU/Bayesian_Statistics/Bayesian_Statistics.tex" 1725938345 1434 4f82bb9d3d56d504a584b38ff80349c3 ""
+  "/Users/james/Documents/Lecture_Notes/2024_FALL_JHU/Bayesian_Statistics/Bayesian_Statistics.tex" 1725938753 1450 6ee51d02a3449e0e6e351b8918db4a97 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/jknappen/ec/ecbx1000.tfm" 1136768653 3584 2d666ecf6d466d8b007246bc2f94d9da ""
-  "/usr/local/texlive/2023/texmf-dist/fonts/tfm/jknappen/ec/ecbx1200.tfm" 1136768653 3584 402da0b29eafbad07963b1224b222f18 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/jknappen/ec/ecbx1440.tfm" 1136768653 3584 13049b61b922a28b158a38aeff75ee9b ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/jknappen/ec/ecbx2074.tfm" 1136768653 3584 7666d038713b9e38abb5c2e0f6972188 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/jknappen/ec/ecbx2488.tfm" 1136768653 3584 0181dbc4d429c3ba4e30feba37b5df96 ""
@@ -90,7 +89,6 @@
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb" 1248133631 31764 459c573c03a4949a528c2cc7f557e217 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb" 1248133631 34694 ad62b13721ee8eda1dcc8993c8bd7041 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb" 1215737283 145408 43d44302ca7d82d487f511f83e309505 ""
-  "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb" 1215737283 140176 d4962f948b4cc0adf4d3dde77a128c95 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb" 1215737283 135942 859a90cad7494a1e79c94baf546d7de5 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb" 1215737283 140194 627cc7f36c05b80e25d178974ccb3442 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb" 1215737283 135938 299ac3a69892db3b7674a8b2543b0a77 ""
@@ -382,16 +380,15 @@
   "/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1693604532 4623355 b8cad38412faebe1ce5b780a45db67bd ""
   "/usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1693604473 7883465 cbb6fd605906c4af7b89a14a3c75599a ""
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
-  "Bayesian_Statistics.aux" 1725938527 10583 bd4f92b1ce559d4317074b71354ee855 "pdflatex"
+  "Bayesian_Statistics.aux" 1725938758 8990 641ec21e3b379450d226ed7a5aa2cfe0 "pdflatex"
   "Bayesian_Statistics.bbl" 1725938520 1720 40c94841c571092369a698a1d119b859 "biber Bayesian_Statistics"
-  "Bayesian_Statistics.out" 1725938527 1125 9136323f50c811983f3fc828295ecb3a "pdflatex"
-  "Bayesian_Statistics.run.xml" 1725938527 2409 9cf0775b7829559c43036e00b5950d22 "pdflatex"
-  "Bayesian_Statistics.tex" 1725938345 1434 4f82bb9d3d56d504a584b38ff80349c3 ""
-  "Bayesian_Statistics.toc" 1725938527 900 81af7bf5fa22d9e97942e8519075095b "pdflatex"
+  "Bayesian_Statistics.out" 1725938758 915 9c557be7bf5bae2cb722bdfd7299201f "pdflatex"
+  "Bayesian_Statistics.run.xml" 1725938758 2409 9cf0775b7829559c43036e00b5950d22 "pdflatex"
+  "Bayesian_Statistics.tex" 1725938753 1450 6ee51d02a3449e0e6e351b8918db4a97 ""
+  "Bayesian_Statistics.toc" 1725938758 583 73a760e4af9ba129a7f1ddc17dd04f15 "pdflatex"
   "Figures//test.pdf" 1725938345 9160 123252763a6c42d2fb5ad857f25d682f ""
   "Figures/test.pdf_tex" 1725938345 2602 477dcc149c8a9af2e6f8c03ab7cf50cc ""
   "Lectures/lec_1.tex" 1725938345 6268 76cb43c43bc55785c8ed63105225168a ""
-  "Lectures/lec_2.tex" 1725938345 2124 bc0e786619eb912e28816a80a79926d0 ""
   "appendix.tex" 1725938345 239 ffa32715a28e22cce3e7a8ebecee74ff ""
   "header.tex" 1725938474 10650 c83a2d946d722686d21f845177a02a0a ""
   (generated)
