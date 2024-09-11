@@ -50,7 +50,7 @@ The core difference between a Bayesian and a frenquencist is the belief on wheth
     Using Bayes' Rule, we have 
     \begin{align*}
         \bf{P}(\theta|Y_1, \ldots, Y_{20}) &\propto \bf{P}(Y_1, \ldots, Y_{20}|\theta) \cdot \pi(\theta) \\
-        &\propto \theta^{\sum Y_i}(1-\theta)^{n - \sum Y_i} \cdot \theta^{a-1}(1-\theta)^{b-1} \\
+        &\propto \theta^{\Sigma Y_i}(1-\theta)^{n - \Sigma Y_i} \cdot \theta^{a-1}(1-\theta)^{b-1} \\
         &=\theta^{a + y - 1} (1-\theta)^{b + n - y - 1}\\
         &\sim Beta(a + y, b + n - y)
     \end{align*}
@@ -70,7 +70,7 @@ With a little massage, we have
 
 This break down is intriguing because the posterior mean is in fact the weighted sum of the prior mean and sample mean, implying insensitivity to the prior as $n\rightarrow \infty$ since the weight dominates. We can further conclude the above example with the following proposition:
 
-\begin{proposition}\label{Prop:Bernoulli+Beta Conjugate Prior}
+\begin{proposition}\label{Prop:BernoulliBeta_Conjugate_Prior}
     With $Y_i|\theta \sim Bernoulli(\theta)$ and $\theta \sim Beta(a,b)$ as the conjugate prior, we have the posterior $\theta | Y_1, \ldots, Y_n \sim Beta(a + \sum Y_i, b + n - \sum Y_i)$
 \end{proposition}
 
@@ -82,11 +82,13 @@ This break down is intriguing because the posterior mean is in fact the weighted
 
 \section{One-parameter Models}
 
+\subsection{Sufficient Statistics and Conjugate Prior}
+
 In this section, we talk about single-parameter models, where the example in \autoref{Prop:Bernoulli+Beta Conjugate Prior} about Bernoulli with Beta priors was a perfect example. Let's start with a closer look at the posterior with uniform prior:
 \begin{equation*}
     \bf{P}(\theta | Y_1, \ldots, Y_n) 
     \;\propto\; \bf{P}(Y_1, \ldots, Y_n | \theta) \cdot \pi(\theta) 
-    \; = \; \theta^{\sum Y_i}(1-\theta)^{n - \sum Y_i}
+    \; = \; \theta^{\Sigma Y_i}(1-\theta)^{n - \Sigma Y_i}
 \end{equation*}
 By observing the last term, the posterior distribution is determined by the statistic $\sum Y_i$(we assume sample size known at all time). This means we don't need to examine the exact values of $Y_i$, but the sum would be enough/sufficient to find out the parameters of the posterior. As a result, we say the sum $\sum Y_i$ is the sufficient statistic of the posterior distribution.
 
@@ -113,5 +115,78 @@ Now we see how these two concepts play together with the following example.
         &\sim Beta(a+y, b+n-y)
     \end{align*}
 
-    Surprisingly, it looks the same as $\theta | Y_1, \ldots, Y_n$! This is because $y$ is the sufficient statistic for the posterior distribution with sampling model Bernoulli and prior Beta. 
+    Surprisingly, it looks the same as $\theta | Y_1, \ldots, Y_n$! This is because $y$, as the sufficient statistic for the posterior, is enough to determine the distribution.
 \end{example}
+
+\subsection{Predictive Distribution}
+There are two main reasons why we model things with mathematics in general: to explain, and to predict. In this section, we explore how can we make predictions within the Bayesian framework.
+
+\begin{definition}[Predictive Distribution]
+    Given data points $Y_1, \ldots, Y_n$, the predictive distribution refers to
+    \begin{equation*}
+        Y_{n+1}|Y_1, \ldots, Y_n
+    \end{equation*}
+\end{definition}
+
+\begin{example}
+    Say we have $Y_i | \theta \sim Bernoulli(\theta)$ and prior $\pi(\theta) \sim Beta(a,b)$, then the predictive distribution $Y_{n+1} | Y_1, \ldots, Y_n \sim Bernoulli(\hat{\theta})$, and we will try to find the exact value of $\hat{\theta}$ in order to determine the predictive distribution. Using marginalization, we have
+    \begin{align*}
+        \hat{\theta} &= \bf{P}(Y_{n+1} = 1 | Y_1, \ldots, Y_n) \\
+        &= \int_0^1 \bf{P}(Y_{n+1}=1, \theta | Y_1, \ldots, Y_n) d \mathbb{P}(\theta | Y_1, \ldots, Y_n) \\
+        &= \int_{0}^{1} \theta \cdot pdf(Beta(a + \sum Y_i, b + n - \sum Y_i)) d\theta \\
+        &= \mathbb{E}[\theta | Y_1, \ldots, Y_n] \\
+        &= \frac{a + \sum Y_i}{a + b + n}
+    \end{align*}
+    As a result, we have our predictive distribution $Y_{n+1} | Y_1, \ldots, Y_n \sim Bernoulli(\frac{a + \Sigma Y_i}{a + b + n})$
+\end{example}
+
+
+\subsection{Confidence Regions}
+After we have known how to estimate the next observation with predictive distribution, now let's find out how to estimate the parameters. 
+
+If we were frenquencists, we first assume the sample distribution, with which then determine the confidence interval(also random variables), after that we sample and see if the result lies in the interval, which determines whether we reject hypothesis $H_0$.
+
+However, as a Bayesian, the confidence of our estimation on $\theta$ originates from the posterior $\bf{P}(\theta | Y_1, \ldots, Y_n)$, which means we have to sample before determining the "interval" or in essence, the distribution itself. Also, we are able to tell the odds very clearly because right now we know exactly how $\theta | Y_1, \ldots, Y_n$ distributes, at least that's what we hope for. 
+
+Moreover, in the Bayesian way, there are two major ways to determine the interval with the posterior distribution. 
+\begin{enumerate}
+    \item Highest Posterior Density(HPD): points with the highest pdf of the posterior distribution, also $\mathbb{P}(HDP_\alpha) = 1 - \alpha$.
+    \item Quantile based interval: old-fashion $(\theta_{\alpha/2}, \theta_{1-\alpha/2})$
+\end{enumerate}
+
+\subsection{Case Study: Possion + Gamma Prior}
+Now we are in business, in this section, we introduce another pair of conjugate prior. A little recap, if $\theta \sim Poission(\theta)$, then $\bf{P}(Y=y | \theta) = \frac{e^{-\theta}\theta^y}{y!}, \; y \in \b{N}$. We will leave the pdf of Gamma for now because in this case study, we present a way to actually find the distribution. Firstly, a little analysis on the joint sampling distribution:
+
+\begin{align*}
+    \bf{P}(Y_1, \ldots, Y_n | \theta)  &= \prod_{i=1}^{n}\bf{P}(Y_i | \theta) \\
+    &= \prod_{i=1}^{n}\frac{e^{-\theta}\theta^{Y_i}}{Y_i!} \\
+    &= \frac{e^{-n\theta}\theta^{\Sigma Y_i}}{\prod_{i=1}^{n} Y_i!}
+\end{align*}
+
+\begin{note}
+    $Y = Y_1 + \cdots + Y_n \sim Possion(n\theta)$.
+\end{note}
+
+Right now we can work on the posterior.
+
+\begin{align}
+    \bf{P}(\theta | Y_1, \ldots, Y_n) &\propto \pi(\theta) \cdot \bf{P}(Y_1, \ldots, Y_n | \theta) \\
+    &\propto \pi(\theta) \cdot e^{c_1\theta}\theta^{c_2} \label{eq:PossionGamma_Prior}
+\end{align}
+
+Let's guess what is the conjugate prior should look like. If $\pi(\theta) \propto e^{d_1\theta}\theta^{d_2}$, then the prior and the posterior will be proportionate to the same pattern, i.e. $\bf{P}(\theta | Y_1, \ldots, Y_n) \propto e^{(c_1 + d_1)\theta}\theta^{(c_2 + d_2)}$. Then all we need to do now is to determine the constant depending on $c_i, d_i$, the result is
+\begin{equation*}
+    \pi(\theta) \sim Gamma(a,b) = \frac{b^a}{\Gamma(a)}\theta^{a-1}e^{-b\theta}
+\end{equation*}
+Therefore, we can push further with \ref{eq:PossionGamma_Prior} so we have
+\begin{equation*}
+    \bf{P}(\theta | Y_1, \ldots, Y_n) \propto Gamma(a + \Sigma Y_i, b+n)
+\end{equation*}
+And we conclude this case study with the following proposition
+
+\begin{proposition}\label{prop:PoissionGamma_Conjugate_Prior}
+    With $Y_i|\theta \sim Poission(\theta)$ and $\theta \sim Gamma(a,b)$ as the conjugate prior, we have the posterior $\theta | Y_1, \ldots, Y_n \sim Gamma(a + \Sigma Y_i, b + n)$.
+\end{proposition}
+
+
+\section{Exponential Family and Monte Carlo Method}
