@@ -155,7 +155,7 @@ Moreover, in the Bayesian way, there are two major ways to determine the interva
 \end{enumerate}
 
 \subsection{Case Study: Possion + Gamma Prior}
-Now we are in business, in this section, we introduce another pair of conjugate prior. A little recap, if $\theta \sim Poission(\theta)$, then $\bf{P}(Y=y | \theta) = \frac{e^{-\theta}\theta^y}{y!}, \; y \in \b{N}$. We will leave the pdf of Gamma for now because in this case study, we present a way to actually find the distribution. Firstly, a little analysis on the joint sampling distribution:
+Now we are in business, in this section, we introduce another pair of conjugate prior. A little recap, if $Y \sim Poission(\theta)$, then $\bf{P}(Y=y | \theta) = \frac{e^{-\theta}\theta^y}{y!}, \; y \in \b{N}$. We will leave the pdf of Gamma for now because in this case study, we present a way to actually find the distribution. Firstly, a little analysis on the joint sampling distribution:
 
 \begin{align*}
     \bf{P}(Y_1, \ldots, Y_n | \theta)  &= \prod_{i=1}^{n}\bf{P}(Y_i | \theta) \\
@@ -190,3 +190,34 @@ And we conclude this case study with the following proposition
 
 
 \section{Exponential Family and Monte Carlo Method}
+In previous examples, we have seen two conjugate distribution pairs that saves our lives from tedious computation. A natural question one may ask is, does there exist a pattern for us to find conjugate priors given any sampling distribution? The answer is almost yes, there's indeed a pattern for huge family of distributions: the exponential family.
+
+\begin{definition}[One-parameter Exponential Family]
+    A sampling model $\bf{P}(Y|\theta)$ is an one-parameter exponential family model if we have the following decomposition:
+    \begin{equation}\label{def:ExponentialFamily}
+        \bf{P}(Y|\theta) = h(Y)c(\theta)\exp(\theta t(Y))
+    \end{equation}
+    where $\theta$ is a parameter, and $t(Y)$ is the sufficient statistic for the posterior.
+\end{definition}
+
+In imitation to (\ref{def:ExponentialFamily}), with $n_0, t_0$ being the sample size and sufficient statistic of the prior sample, we suppose our prior takes the form:
+\begin{equation*}
+    \pi(\theta) = k(n_0, t_0)c(\theta)^{n_0}\exp(\textcolor{red}{n_0}\textcolor{blue}{t_0}\textcolor{purple}{\theta})
+\end{equation*}
+
+We then can derive the posterior distribution using the Bayes' Rule:
+\begin{align*}
+    \bf{P}(\theta | Y_1, \ldots, Y_n) &\propto \pi(\theta) \cdot \bf{P}(Y_1, \ldots, Y_n | \theta) \\
+    &\propto c(\theta)^{n_0+n}\exp\{ \textcolor{red}{(n_0 + n)} \textcolor{blue}{\frac{n_0t_0 + n\bar{t(y)}}{n_0 + n}}\textcolor{purple}{\theta} \}
+\end{align*}
+
+With the color, we can easily see that the prior and the posterior fall into the same family of distribution, which by definition is conjugate.
+
+As for Monte Carlo, it's just a fancy name for simulation/experiment. Specifically, it applies to the field of Bayesian by allowing us to simulate the sampling process. Given a joint distribution $\bf{P}(Y, \theta)$, we can rewrite it as $\pi(\theta)\bf{P}(Y|\theta)$. There are 3 steps for us to follow, given sample $Y_i$:
+\begin{enumerate}
+    \item Sample a list of parameter $\vec\theta = \{\theta_1, \ldots, \theta_n\}$ with $\theta_i \sim \pi(\theta | Y_1, \ldots, Y_{n_0})$
+    \item For each $\theta_i$, sample $\tilde{Y_i} \sim \bf{P}(Y | \theta, Y_1, \ldots, Y_{n_0})$
+    \item return $\{(\theta_i, \tilde{Y_i})\}_{i=1}^n$
+\end{enumerate}
+
+Sometimes we may find our simulation does not align with our empirical data. Firstly, it's possible we were unlucky, so we can run this entire experiment $k$ times, meaning a total of $k \cdot n$ pairs of $(\theta, Y)$ will be generated. It's also possible that we need to change our model, both the sampling model and the prior have room for adjustment.
