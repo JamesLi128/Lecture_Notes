@@ -1,0 +1,122 @@
+\chapter{Introduction and Recap}
+
+In this chapter, we will go through ideas that inspired the development of this field of study, together with math required for this class and  some basic results from convexity analysis. The kind of problem we are trying to answer has the form:
+
+\begin{mini}
+    {x \in \mathbb{R}^d}
+    {f(x)} \\
+    {}
+\end{mini}
+
+Often in machine learning, what we care more about is not the value itself, but the minimizer associated with. Because the objective $f(x)$ serves as a loss function, and what we want is the parameters. As a result, we sometimes slightly change the formation into:
+\begin{argmini}
+    {x \in \mathbb{R}^d}
+    {f(x)} \\
+    {}
+\end{argmini}
+
+\section{Calculus Review}
+\indent Given a function $f(x) \in \mathbb{R}^d \rightarrow \mathbb{R}$, if it's smooth, then we can define its gradient as 
+\begin{equation*}
+    \nabla f(x) = 
+    \begin{pmatrix}
+        \frac{\partial f}{\partial x_1} \\
+        \vdots \\
+        \frac{\partial f}{\partial x_n}
+    \end{pmatrix}
+\end{equation*}
+The gradient at point $x$ is the direction of steepest growth. It originates from the attempt to find a local approximation for any smooth function with an affine function. Specifically, the affine approximation is:
+\begin{equation*}
+    \tilde{x} \mapsto f(x) + \nabla f^T(x)(\tilde{x} - x)
+\end{equation*}
+\begin{note}
+    Even if $f(x)$ has partial derivatives for all of the coordinates, the gradient might not exists. Take $f(x) = \sqrt{x_1^2 + x_2^2}$ as an example. 
+\end{note}
+
+A natural idea is can we find a better approximation with a quadratic? If $f(x)$ is twice differentiable, the Hessian $\nabla^2f(x): \mathbb{R}^d \rightarrow \mathbb{R}^d$ helps our approximation with the following quadratic form:
+\begin{equation*}
+    \tilde{x} \mapsto f(x) + \nabla f^T(x)(\tilde{x}-x) + (\tilde{x}-x)^T\nabla^2 f(x)(\tilde{x}-x)
+\end{equation*}
+It's not hard to see that these are just special cases of the Taylor Series for high dimensional functions. But in optimization problems we mostly/only care about the first and second derivetives because of the optimality conditions that we will be talking about later on. No matter affine or quadratic, they are all approximations, so exactly how much deviation do they have is important. Before that, we introduce a tool we will find handy in the future.
+
+\begin{definition}
+    Given $f:\mathbb{R}^d \rightarrow \mathbb{R}$, for any $x, s \in \mathbb{R}^d$ fixed, we define the "slice" of $f(x)$ in direction $s$ as:
+    \begin{equation*}
+        \varphi(t) = f(x + ts)
+    \end{equation*}
+\end{definition}
+
+\begin{lemma}
+    Let $f:\mathbb{R}^d \rightarrow \mathbb{R}$, then $\forall x,s \in \mathbb{R}^d$, the following two statements hold:
+    \begin{enumerate}
+        \item If $f(x)$ is smooth, so is $\varphi(t)$ with $\varphi'(t) = s^T \nabla f(x+ts)$.
+        \item If $f(x)$ is twice differentiable, so is $\varphi(t)$ with $\varphi''(t) = s^T \nabla^2 f(x) s$
+    \end{enumerate}
+\end{lemma}
+
+It's not hard to see how the differentiability is passed down to $\varphi(t)$. With this lemma, we can upper bound the approximation error in any direction with the following two theorems.
+
+\begin{theorem}[Taylor Expansion First-Order Approximation]
+    Let $f(x)$ have L-Lipschitz continuous $\nabla f(x)$. Then for any $x, s \in \mathbb{R}^d$, we have
+    \begin{equation}
+        | f(x+ts) - (f(x) + t\nabla f^T(x)s) | \leq \frac{L}{2}t^2\|s\|^2
+    \end{equation}
+    In addition, if $f(x)$ has a Q-Lipschitz Hessian(operator norm). We have
+    \begin{equation}
+        |f(x + ts) - (f(x) + t \nabla f^T(x)s + \frac{t^2}{2}s^T \nabla^2 f(x)s)| \leq \frac{Q}{6}t^3\|s\|^3
+    \end{equation}
+\end{theorem}
+This means, if we enforce Lipschitz condition on $f(x)$, which is not very strict in practice, then the approximation error can be upper bounded by the square or the cude of $t\|s\|$. This shouldn't be surprising since it matches the residual of Taylor expansion. 
+
+
+\section{Optimality Conditions}
+In this section, we use the proposed theorem to explain why do we care specifically about the first and second derivatives. Local optimality can be checked by examining the first and second order derivatives.
+
+\begin{theorem}[First-order necessary]~\\
+    \indent Suppose $f(x) \in C^1$, then $x*$ is a local minimizer$\Rightarrow \; \nabla f(x*) = 0$
+\end{theorem}
+
+\begin{theorem}[First-order sufficient]~\\
+    \indent Suppose $f(x) \in C^1$ and is also convex, then $x*$ is a local minimizer $\Leftrightarrow \; \nabla f(x*) = 0$
+\end{theorem}
+
+\begin{theorem}[Second-order necessary]~\\
+    \indent Suppose $f(x) \in C^2$, then $x*$ is a local minimizer $\Rightarrow \; \nabla^2 f(x*) \succeq 0$ 
+\end{theorem}
+
+\begin{theorem}[Second-order necessary]~\\
+    \indent Suppose $f(x) \in C^2$, then $x*$ is a local minimizer $\Rightarrow \; \nabla^2 f(x*) \succ 0$
+\end{theorem}
+
+
+\section{Basics of Convexity}
+\begin{definition}[Convex Set]
+    A set $C \subseteq \mathbb{R}^d$ is convex if given any $x,y \in \mathbb{R}^d$ and $\lambda \in [0,1]$, we have $tx + (1-t)y \in C$.
+\end{definition}
+\begin{definition}[Epigraph]
+    Let $f(x): \mathbb{R}^d \rightarrow \mathbb{R}$, then $epi(f) = \{(x, t) : t \geq f(x)\}$
+\end{definition}
+\begin{lemma}
+    $f(x)$ is convex $\Leftrightarrow$ $epi(f)$ is convex
+\end{lemma}
+
+\begin{lemma}[Operations Perserving Convexity]
+    Assume $C_1, C_2 \subseteq \mathbb{R}^d$ and $C_3 \subseteq \mathbb{R}^n$ are convex sets.
+    \begin{enumerate}
+        \item (Scaling) $\mathbb{R}_+ \cdot C_1$
+        \item (Minkovski Sum) $C_1 + C_2$
+        \item (Intersections) $C_1 \cap C_2$
+        \item (Affine image and preimage) Let $\mathcal{A}:\mathbb{R}^d \rightarrow \mathbb{R}^n$ be affine, then $\mathcal{A}(C_1)$ and $\mathcal{A}^{-1}C_3$ are convex.
+    \end{enumerate}
+\end{lemma}
+
+Now we will check how can we characterize smooth convex functions with the gradient.
+
+\begin{proposition}[First-order Characterization of Smooth Convex Function]
+    Suppose $f(x): \mathbb{R}^n \rightarrow \mathbb{R}$ is differentiable, then TFAE
+    \begin{enumerate}
+        \item $f(x)$ is convex
+        \item $\forall x,y \in \mathbb{R}^d$, we have $f(y) \leq f(x) + \langle \nabla f(x), y-x \rangle$
+        \item $\forall x,y \in \mathbb{R}^d$, we have $\langle \nabla f(y) - \nabla f(x), x-y \rangle \geq 0$
+    \end{enumerate}
+\end{proposition}

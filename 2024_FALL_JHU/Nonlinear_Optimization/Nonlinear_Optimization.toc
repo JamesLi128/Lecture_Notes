@@ -1,2 +1,4 @@
-\contentsline {chapter}{\numberline {A}Additional Proofs}{3}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Proof of \autoref {thm}}{3}{appendix.A.1}%
+\contentsline {chapter}{\numberline {1}Introduction and Recap}{2}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Calculus Review}{2}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Optimality Conditions}{3}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Basics of Convexity}{3}{section.1.3}%
