@@ -150,7 +150,7 @@ However, as a Bayesian, the confidence of our estimation on $\theta$ originates 
 
 Moreover, in the Bayesian way, there are two major ways to determine the interval with the posterior distribution. 
 \begin{enumerate}
-    \item Highest Posterior Density(HPD): points with the highest pdf of the posterior distribution, also $\mathbb{P}(HDP_\alpha) = 1 - \alpha$.
+    \item Highest Posterior Density(HPD): points with the highest of the posterior pdf, also $\mathbb{P}(HDP_\alpha) = 1 - \alpha$.
     \item Quantile based interval: old-fashion $(\theta_{\alpha/2}, \theta_{1-\alpha/2})$
 \end{enumerate}
 
@@ -174,7 +174,7 @@ Right now we can work on the posterior.
     &\propto \pi(\theta) \cdot e^{c_1\theta}\theta^{c_2} \label{eq:PossionGamma_Prior}
 \end{align}
 
-Let's guess what is the conjugate prior should look like. If $\pi(\theta) \propto e^{d_1\theta}\theta^{d_2}$, then the prior and the posterior will be proportionate to the same pattern, i.e. $\bf{P}(\theta | Y_1, \ldots, Y_n) \propto e^{(c_1 + d_1)\theta}\theta^{(c_2 + d_2)}$. Then all we need to do now is to determine the constant depending on $c_i, d_i$, the result is
+Let's guess what the conjugate prior should look like. If $\pi(\theta) \propto e^{d_1\theta}\theta^{d_2}$, then the prior and the posterior will be proportionate to the same pattern, i.e. $\bf{P}(\theta | Y_1, \ldots, Y_n) \propto e^{(c_1 + d_1)\theta}\theta^{(c_2 + d_2)}$. Then all we need to do now is to determine the constant depending on $c_i, d_i$, the result is
 \begin{equation*}
     \pi(\theta) \sim Gamma(a,b) = \frac{b^a}{\Gamma(a)}\theta^{a-1}e^{-b\theta}
 \end{equation*}
