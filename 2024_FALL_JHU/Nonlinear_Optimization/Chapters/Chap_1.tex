@@ -112,11 +112,48 @@ In this section, we use the proposed theorem to explain why do we care specifica
 
 Now we will check how can we characterize smooth convex functions with the gradient.
 
-\begin{proposition}[First-order Characterization of Smooth Convex Function]
+\begin{proposition}[First-order Characterization of Smooth Convex Function]\label{prop:FirstOrderConvexCharacterization}
     Suppose $f(x): \mathbb{R}^n \rightarrow \mathbb{R}$ is differentiable, then TFAE
     \begin{enumerate}
         \item $f(x)$ is convex
-        \item $\forall x,y \in \mathbb{R}^d$, we have $f(y) \leq f(x) + \langle \nabla f(x), y-x \rangle$
-        \item $\forall x,y \in \mathbb{R}^d$, we have $\langle \nabla f(y) - \nabla f(x), x-y \rangle \geq 0$
+        \item $\forall x,y \in \mathbb{R}^d$, we have $f(y) \geq f(x) + \langle \nabla f(x), y-x \rangle$
+        \item $\forall x,y \in \mathbb{R}^d$, we have $\langle \nabla f(y) - \nabla f(x), y-x \rangle \geq 0$
     \end{enumerate}
+\end{proposition}
+
+\begin{note}
+    To memorize the direction of the inequality, we should think the first order approximation supporing the entire convex function from below. 
+\end{note}
+
+\begin{lemma}[Second-order Characterization of Convex Function]
+    Assume convex function $f: \mathbb{R}^d \rightarrow \mathbb{R}$ is twice differentiable, then we have $f(x)$ is convex $\iff \nabla^2f(x) \succeq 0, \forall x \in \mathbb{R}^d$
+\end{lemma}
+
+
+In the above discussion, we assumed that the convex functions are at least differentiable. Then how can we verify optimality if $\nabla f(x)$ doesn't exist? We introduce subdifferential as a loose local linear approximation.
+
+\begin{definition}[Subdifferential]
+    The subdifferential fo $f$ at $x \in \mathbb{R}^d$ is
+    \begin{equation*}
+        \partial f(x) = \{ v \in \mathbb{R}^d : f(y) \geq f(x) + \langle v, y-x \rangle,\; \forall y\}
+    \end{equation*}
+\end{definition}
+
+From the definition, it's not hard to see that the idea of subgradient originates from proposition \ref{prop:FirstOrderConvexCharacterization}, which is a mathematical way to formulate the intuition we just talked about. The introduction of subdifferential and subgradient is useful because of the following theorem.
+
+\begin{theorem}
+    Suppose $f: \mathbb{R}^d \rightarrow \mathbb{R}$ is convex, then $x^*$ is a global minimizer $\iff 0 \in \partial f(x^*)$
+\end{theorem}
+
+When we are calculating the subdifferential of a function, often we will need to deal with operations between functions like add and composition. 
+
+\begin{proposition}[Subdifferential Calculus]
+    Suppoese $f, h: \mathbb{R}^d \rightarrow \mathbb{R}$ are convex, and $A:\mathbb{R}^n \rightarrow \mathbb{R}^d$, then
+    \begin{enumerate}
+        \item $\partial(f+h)(x) = \partial f(x) + \partial f(x)$
+        \item $\forall \alpha \in \mathbb{R}, \; \partial(\alpha f(x)) = \alpha \partial f(x)$
+        \item $\partial(f \circ A(x)) = A^T \partial f(Ax)$
+        \item If $f$ is differentiable, then $\partial f(x) = \{ \nabla f(x) \}$
+        \item Given $x \in \mathbb{R}^d$. Define $M(x) = \{ i \in \{1,2\} : \max_{j=1,2} = f_i(x) \}$. Then we have, $\partial(\max(f_1, f_2))(x) = conv\{ \partial f_i(x) : i \in M(x) \}$
+    \end{enumerate}    
 \end{proposition}
