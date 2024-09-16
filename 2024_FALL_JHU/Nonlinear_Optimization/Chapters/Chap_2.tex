@@ -3,4 +3,36 @@
 In this section, we will go through several optimization algorithms and some bounds.
 
 \section{Gradient Descent}
-As one of the most famous 
+One of the most famous and frequently used optimization algorithms is the gradient descent, which can be formulated as:
+\begin{equation}\label{eq:GradientDescentUpdateFormula}
+    x_{k+1} \leftarrow x_k - \alpha_k\nabla f(x_k)
+\end{equation}
+Interestingly, this update formula can be interpreted in the following way:
+\begin{equation*}
+    x_{k+1} = \arg\min_x \{ f(x_k) + \langle \nabla f(x_k), x-x_k \rangle + \frac{1}{2\alpha_k}\|x-x_k\|^2 \}
+\end{equation*}
+In fact, if we denote $h(x) = f(x_k) + \langle \nabla f(x_k), x-x_k \rangle + \frac{1}{2\alpha_k}\|x-x_k\|^2$, by checking the first-order necessary condition, we have 
+\begin{equation*}
+    \nabla h(x) = \nabla f(x_k) + \frac{1}{\alpha_k}(x - x_k)
+\end{equation*}
+By setting $\nabla h(x) = 0$, we derive $x_{k+1} = x = x_k - \alpha_k\nabla f(x_k)$, which is the same as formula \ref{eq:GradientDescentUpdateFormula}.
+
+\begin{note}
+    We can see that $h_k(x)$ is the Taylor expansion of $f(x)$ at $x_k$.
+\end{note}
+
+Since we are interested in the minimization and maximization potential of the update algorithm, it's worth to explore how the corresponding value $f(x)$ changes. 
+\begin{lemma}[Descent Lemma]\label{lemma:DescentLemma}
+    Let $f: \mathbb{R}^d \rightarrow \mathbb{R}$ have L-Lipschitz gradient and $k \geq 0$, we have
+    \begin{equation*}
+        f(x_{k+1}) \leq f(x_k) - (\alpha_k - \frac{L\alpha_k^2}{2}) \| \nabla f(x_k) \|^2
+    \end{equation*}
+\end{lemma}
+\begin{proof}
+    Only need to use the first-order Taylor bound:
+    \begin{equation*}
+        | f(x_{k+1}) - f(x_k) - \langle \nabla f(x_k), x_{k+1} - x_k \rangle | \leq \frac{L}{2}\|x_{k+1} - x_k\|^2
+    \end{equation*}
+\end{proof}
+
+To minimize $f(x)$, we want the upper bound in lemma \ref{lemma:DescentLemma} to be as small as possible, meaning that we need to maximize $\alpha_k - \frac{L\alpha_k^2}{2}$. By solving this simple quadratic, we derive the ideal step size $\alpha_k = \frac{1}{L}$. However, this can be quite impractical since even if it's not a strong assumption to take functions we see in rea life over a fintie domain as Lipschitz, it can be difficult to determine the Lipschitz constant $L$. If we examine the update formula \ref{eq:GradientDescentUpdateFormula} closely, the only thing that needs external care is the step size $\alpha_k$. As a result, in the following we will discuss a way to both effectively and pratically determine the step size $\alpha_k$.
