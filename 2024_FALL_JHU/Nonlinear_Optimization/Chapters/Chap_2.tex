@@ -89,5 +89,29 @@ One nice thing about Armijo's condition is that it clarifies the vague term "suf
         (\ref{eq:ArmijoUpdateSubstituteAlphak}) &\leq f(x_k) - \frac{1}{2}\min\{\frac{1}{L}, \frac{1}{2L}\} \cdot \|\nabla f(x_k) \|^2 \\
         &\leq f(x_k) - \frac{1}{4L}\| \nabla f(x_k) \|^2
     \end{align*}
-    which does not result in a great sacrifice on the tightness of the bound compared with the quadratic in the descent lemma when the step size is small enough or asking $L > 1$.
+    which does not result in a great sacrifice on the tightness of the bound compared with the quadratic in the descent lemma when the step size is small enough or asking $L > 1$. 
+    
+    A plot is available at \emph{Nonlinear\_Optimization/plot\_maker/Armijo\_and\_Descent\_Bound/plot.py}, python=3.11.5 + holoviews.
 \end{note}
+
+\section{Nonconvex Smooth Optimization Guarantee}
+Equipped with the bounding results on $f(x_{k+1})$ from the previous chapter, we will see what we can say about function with L-Lipschitz gradient and update rule:
+\begin{equation*}
+    x_{k+1} \leftarrow x_k - \alpha_k \nabla f(x_k)
+\end{equation*}
+
+\begin{theorem}
+    Suppose $f(x)$ is L-smooth, then for any $T > 0$, we have:
+    \begin{equation*}
+        \frac{1}{T}\sum_{k=0}^{T-1}\|\nabla f(x_k) \|^2 \leq \frac{2L}{T}(f(x_0) - \min_{0\leq k \leq T-1}f(x_k))
+    \end{equation*}
+    when we set $\alpha_k = \frac{1}{L}$, i.e. exact linesearch.
+
+    In addition, with Armijo backtracking, we have:
+    \begin{equation*}
+        \frac{1}{T}\sum_{k=0}^{T-1}\|\nabla f(x_k) \|^2 \leq \frac{\max \{ \frac{1}{\eta a}, \frac{L}{2\tau\eta(1-\eta)} \}}{T}(f(x_0) - \min_{0 \leq k \leq T-1}f(x_k))
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    Use the bound of $f(x_{k+1})$ we derived from the previous section, i.e. descent lemma \ref{lemma:DescentLemma} and Armijo. Sum all of the inequalities up, then change $f(x_T)$ to $\min_{k}f(x_k)$
+\end{proof}
