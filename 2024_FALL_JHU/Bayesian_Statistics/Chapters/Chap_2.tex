@@ -93,3 +93,58 @@ By doing something similar, we derive the law of total variance:
 \begin{equation*}
     Var(U) = \mathbb{E}[Var(U|V)] + Var(\mathbb{E}[U|V])
 \end{equation*}
+
+\subsection{Predictive Conditional Posterior Distribution}
+In this part we will model the predictive model. Conditioned on $\sigma^2$, we have
+\begin{align*}
+    \mathbf{P}(\tilde{Y} | y_1, \ldots, y_n, \sigma^2) &= \int \mathbf{P}(\tilde{Y},\theta | y_1, \ldots, y_n, \sigma^2) \cdot \mathbf{P}(\theta | y_1, \ldots, y_n, \sigma^2) d\theta \\
+    &= \int \underbrace{\mathbf{P}(\tilde{Y},\theta | \sigma^2)}_{\text{sampling model: normal}} \cdot \underbrace{\mathbf{P}(\theta | y_1, \ldots, y_n, \sigma^2)}_{\text{conditional prior: normal}} d\theta
+\end{align*}
+
+This tells us that, the conditional predictive distribution is also normal with some mean and variance. In the following we are going to find out what they are using the laws we mentioned above. 
+
+\begin{align*}
+    \text{mean} &= \mathbb{E}[\tilde{Y} | \vec{Y}, \sigma^2] \\
+    &=\mathbb{E}[\mathbb{E}[\tilde{Y} | \theta, \vec{Y}, \sigma^2] | \vec{Y}, \sigma^2] \\
+    &=\mathbb{E}[\theta | \vec{Y}, \sigma^2] \\
+    &=\mu_n
+\end{align*}
+
+\begin{align*}
+    \text{Var} &= Var(\tilde{Y} | \vec{Y}, \sigma^2) \\
+    &= \mathbb{E}[ Var(\tilde{Y} | \vec{Y}, \theta, \sigma^2) | \vec{Y}, \sigma^2] + Var(\mathbb{E}[\tilde{Y} | \vec{Y}, \theta, \sigma^2] | \vec{Y}, \sigma^2) \\
+    &= \mathbb{E}[\sigma^2 | \vec{Y}, \sigma^2] + Var(\theta | \vec{Y}, \sigma^2) \\
+    &= \sigma^2 + \tau_n^2
+\end{align*}
+
+This implied that $\tilde{Y} | y_1, \ldots, y_n, \sigma^2 \sim N(\mu_n, \sigma^2 + \tau_n^2)$.
+
+\subsection{Joint Inference for Mean and Variance}
+Previously, we derived our work by fixing $\sigma^2$. In this section, we will find out what's going to happen if we bring $\sigma^2$ back to life. Firstly, it is natural to write the joint posterior as
+
+\begin{equation*}
+    \mathbf{P}(\theta, \sigma^2 | y_1, \ldots, y_n) \propto \mathbf{P}(y_1, \ldots, y_n | \theta, \sigma^2) \cdot \mathbf{P}(\theta | \sigma^2) \cdot \mathbf{P}(\sigma^2)
+\end{equation*}
+where the first two terms are already known to be $N(\theta, \sigma^2)$ and $N(\mu_0, \tau_0^2)$. It is obvious that if $\sigma^2$ also follows normal, then the posterior will also be a normal. However, it can be problematic if we model something as normal in practice, for example, the length or area of some objects since they can only take non-negative values. 
+
+To address this issue, we decomopse the posterior in a different way and assume a specific dependence of $\theta$ on $\sigma^2$.
+
+\begin{align*}
+    \frac{1}{\sigma^2} &\sim Gamma(\frac{\nu_0}{2}, \frac{\nu_0\sigma_0^2}{2}) \\
+    \sigma^2 &\sim InvGamma(\frac{\nu_0}{2}, \frac{\nu_0\sigma_0^2}{2}) \\
+\end{align*}
+
+We have decomposition:
+\begin{align*}
+    \mathbf{P}(\theta, \sigma^2 | y_1, \ldots, y_n) &\propto \mathbf{P}(\theta | \vec{Y}, \sigma^2) \cdot \mathbf{P}(\sigma^2 | \vec{Y}) \\
+    &= N(\mu_n, \tau_n^2) \cdot \mathbf{P}(\sigma^2 | \vec{Y})
+\end{align*}
+where we can further write the second term in the following way:
+\begin{align*}
+    \mathbf{P}(\sigma^2 | \vec{Y}) &\propto \mathbf{P}(\vec{Y}, \sigma^2) \cdot \mathbf{P}(\sigma^2) \\
+    &= \mathbf{P}(\sigma^2) \cdot \int \mathbf{P}(\vec{Y} \theta | \sigma^2) d\theta \\
+    &= \mathbf{P}(\sigma^2) \cdot \int \mathbf{P}(\vec{Y} | \theta, \sigma^2) \cdot \mathbf{P}(\theta | \sigma^2) d\theta \\
+    &=InvGamma \int Normal \cdot Normal \;d\theta \\
+    &= InvGamma(\frac{\nu_n}{2}, \frac{\nu_n\sigma_n}{2})
+\end{align*}
+where $\nu_n = \nu_0 + n$, $\nu_n\sigma_n^2 = \nu_0\sigma_0^2 + (n-1)s^2 + \frac{K_0n}{K_0 + n}(\bar{y} - y_0)^2$, $K_0 = \frac{\sigma^2}{\tau_0^2}$. Here $K_0$ can be interpreted as the prior sample size. 
