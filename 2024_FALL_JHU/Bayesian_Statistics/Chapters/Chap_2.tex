@@ -4,7 +4,7 @@ In the previous chapter, we introduced the idea of Bayesian Statistics, two one-
 \section{The most objective: Jeffreys' Prior}
 When we are trying to select a prior, we often turn to the uniform distribution if we have no idea about how the parameters are distributed. Uniform is believed to be objective because all possible parameters are assigned with the same weight, meaning we are not favoring any particular options. But it's far from being perfect, because if so, this section won't exist. In this section, we will first explain why uniform can be problematic sometimes, and then introduce the Jeffreys' prior, which is believed to be more objective to some.
 
-One of the good sides of using uniform as prior is that, as long as you are selecting the parameter(s) within a finite region, you don't need to adjust the weight since it will be offset in the normalization factor afterall. However, if $|\Omega| = \infty$ for example $[0, +\infty), (-\infty, 0]$, then the integration of the prior is bound to be infinite. The problem is that, not only the decomposition $\bf{P}(Y=y) = \int_{\Omega} \bf{P}(Y=y|\theta) d\theta$ will very likely to be invalid because the integration might not converge. In addition, even if it converges, uniform prior with $\pi(\theta) = 1$ becomes less objective because now it tends to favor larger $\theta$ since for all finite interval/region $I$, $\int_{I} \pi(\theta) d\theta < \infty$ but $\int_{\Omega\setminus I}\pi(\theta)d\theta = \infty$. 
+One of the good sides of using uniform as prior is that, as long as you are selecting the parameter(s) within a finite region, you don't need to adjust the weight since it will be offset in the normalization factor afterall. However, if $|\Omega| = \infty$ for example $[0, +\infty), (-\infty, 0]$, then the integration of the prior is bound to be infinite. The problem is that, not only the decomposition $\mathbf{P}(Y=y) = \int_{\Omega} \mathbf{P}(Y=y|\theta) d\theta$ will very likely to be invalid because the integration might not converge. In addition, even if it converges, uniform prior with $\pi(\theta) = 1$ becomes less objective because now it tends to favor larger $\theta$ since for all finite interval/region $I$, $\int_{I} \pi(\theta) d\theta < \infty$ but $\int_{\Omega\setminus I}\pi(\theta)d\theta = \infty$. 
 
 Apart from infinite regions, uniform prior also doesn't work well with change of variables. Take the following as an example:
 \begin{example}
@@ -33,4 +33,63 @@ One question one may have right now is why is Jeffreys' prior objective? Clearly
 \begin{note}[The maximizer of KL-divergence]
     TBD
 \end{note}
+
 \section{The Normal Model}
+Normal distribution will be the first multi-parameter model we are going to study. The methodology is intuitive, instead of modeling two parameters at a time, we first fix $\sigma^2$ as a constant, which now equals to a one-parameter model. Then, we introduce $\sigma^2$ as a random variable and repeat the procedure. 
+
+\subsection{Condition Posterior}
+We have joint sampling density as the product of $n$ normal due to conditional independence
+\begin{align}
+    \mathbf{P}(y_1, \ldots, y_n | \theta, \sigma^2) &\propto \prod_{i=1}^{n}\exp(-\frac{1}{2\sigma^2}(y_i - \theta)^2) \\
+    &=\exp(-\frac{1}{2\sigma^2}\sum_{i=1}^{n}(y_i - \theta)^2) \\
+    &=\exp(-\frac{1}{2}(\frac{n}{\sigma^2}\theta^2 - 2\frac{\sum y_i}{\sigma^2} + \frac{\sum y_i^2}{\sigma^2})) \label{eq:NormalConditionalSamplingDecomposition}\\
+    &=\exp(c_1(\theta - c_2)^2 + c_3)
+\end{align}
+
+By fixing $\sigma^2$ as a constant, we have conditional posterior
+\begin{align}
+    \mathbf{P}(\theta | y_1, \ldots, y_n, \sigma^2) &\propto \mathbf{P}(y_1, \ldots, y_n | \theta, \sigma^2) \cdot \mathbf{P}(\theta | \sigma^2)  \label{eq:NormalConditionalPosterior}
+\end{align}
+
+To make it conjugate, one straightforward choice for prior is also normal, specifically $N(\mu_0, \tau_0^2)$. Then we have the following decomposition of the prior pdf:
+\begin{align}
+    \mathbf{P}(\theta | \sigma^2) &\propto \exp(- \frac{1}{2\tau_0^2}(\theta - \mu_0)) \\
+    &=\exp(-\frac{1}{2}(\frac{1}{\tau_0^2}\theta^2 - 2\frac{\mu_0}{\tau_0^2}\theta + \frac{\mu_0^2}{\tau_0^2})) \label{eq:NormalConditionalPriorDecomposition}\\
+    &=\exp(-\frac{1}{2}(a\theta^2 - 2b\theta^2 +c))
+\end{align}
+This expression offers us a quick way to compute the mean and gradient of the normal distribution:
+\begin{equation}
+    \tau_0^2 = \frac{1}{a}, \quad \mu_0 = b \cdot \tau_0^2 = \frac{b}{a} \label{eq:QuickNormalMeanVarFormula}
+\end{equation}
+
+Now we have collected all of the ingredients we need, by combining (\ref{eq:NormalConditionalSamplingDecomposition}) and (\ref{eq:NormalConditionalPriorDecomposition}) into (\ref{eq:NormalConditionalPosterior}), we obtain the following decomposition:
+\begin{equation}
+    \mathbf{P}(\theta | y_1, \ldots, y_n, \sigma^2) \propto \exp(-\frac{1}{2}\big[ (\frac{n}{\sigma^2} + \frac{1}{\tau_0^2})\theta^2 - 2(\frac{\sum y_i}{\sigma^2} + \frac{\mu_0}{\tau_0^2})\theta + (\frac{\sum y_i^2}{\sigma^2} + \frac{\mu_0^2}{\tau_0^2}) \big])
+\end{equation}
+
+By using the formula (\ref{eq:QuickNormalMeanVarFormula}) and substituting the variance terms with precision, we obtain conditional posterior mean and variance:
+\begin{equation*}
+    \tau_n^2 = \frac{1}{a} = \frac{1}{n\tilde{\sigma}^2 + \tilde{\tau_0}^2}, \quad \mu_n = \frac{b}{a} = \frac{\sum y_i \tilde{\sigma}^2 + \mu_0\tilde{\tau_0}^2}{n\tilde{\sigma}^2 + \tilde{\tau_0}^2}
+\end{equation*}
+which means we have the conditional postertior
+\begin{equation*}
+    \theta | y_1, \ldots, y_n, \sigma^2 \sim N(\mu_n, \tau_n^2)
+\end{equation*}
+
+\subsection{Law of Total Expectation/Variance}
+Conditional expectation $\mathbb{E}[U|V=v]$ is a random variable in $V$, which means its value changes according to $V$. The low of total expectation states that 
+\begin{equation*}
+    \mathbb{E}[\mathbb{E}[U|V]] = \mathbb{E}[U]
+\end{equation*}\
+The proof is quite simple, by writing the left hand side explicitly:
+\begin{align*}
+    &\int_{V}\int_{U|V=v}u \cdot p(U=u|V=v) du \cdot p(V=v)dv \\
+    =& \int_{V}\int_{U|V=v}u \cdot p(U=u) dudv \\
+    =& \int_{V}\int_{U}u \cdot p(U=u) dudv \\
+    =& \int_{V} \mathbb{E}[U] dv = \mathbb{E}[U]
+\end{align*}
+
+By doing something similar, we derive the law of total variance:
+\begin{equation*}
+    Var(U) = \mathbb{E}[Var(U|V)] + Var(\mathbb{E}[U|V])
+\end{equation*}
