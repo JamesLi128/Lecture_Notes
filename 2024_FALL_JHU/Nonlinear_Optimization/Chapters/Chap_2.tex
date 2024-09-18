@@ -82,11 +82,11 @@ One nice thing about Armijo's condition is that it clarifies the vague term "suf
     Firstly, for each search for step size $\alpha$, it needs no more than $\lceil \log_{\frac{1}{\tau}} (\frac{\alpha L}{2(1-\eta)}) \rceil $ steps to terminate. This bound is derived by asking $\alpha \tau^n \leq $ the bound in \ref{lemma:ArmijoStepSizeBound}. Secondly, we have $\alpha_k \geq \min\{ a, \frac{2\tau(1 - \eta)}{L} \}$ because we either find the sufficient descent at the first step, or find it no smaller than $\tau$ times the upper bound in \ref{lemma:ArmijoStepSizeBound}, which is the next iteration of step size. So we can rewrite the Armijo condition as:
     \begin{align}
         f(x_{k+1}) &\leq f(x_k) - \eta \alpha_k\|\nabla f(x_k) \|^2 \\
-        &\leq f(x_k) - \eta \min\{ a, \frac{2\tau(1-\eta)}{L} \} \cdot \|\nabla f(x_k) \|^2  \label{eq:ArmijoUpdateSubstituteAlphak}
+        &\leq f(x_k) - \eta \min\{ a, \frac{2\tau(1-\eta)}{L} \} \cdot \|\nabla f(x_k) \|^2  \label{eq:ArmijoUpdateBound}
     \end{align}
     Now in the special case where $a \geq \frac{1}{L}$ and $\eta = \tau = \frac{1}{2}$, we have 
     \begin{align*}
-        (\ref{eq:ArmijoUpdateSubstituteAlphak}) &\leq f(x_k) - \frac{1}{2}\min\{\frac{1}{L}, \frac{1}{2L}\} \cdot \|\nabla f(x_k) \|^2 \\
+        (\ref{eq:ArmijoUpdateBound}) &\leq f(x_k) - \frac{1}{2}\min\{\frac{1}{L}, \frac{1}{2L}\} \cdot \|\nabla f(x_k) \|^2 \\
         &\leq f(x_k) - \frac{1}{4L}\| \nabla f(x_k) \|^2
     \end{align*}
     which does not result in a great sacrifice on the tightness of the bound compared with the quadratic in the descent lemma when the step size is small enough or asking $L > 1$. 
@@ -94,24 +94,42 @@ One nice thing about Armijo's condition is that it clarifies the vague term "suf
     A plot is available at \emph{Nonlinear\_Optimization/plot\_maker/Armijo\_and\_Descent\_Bound/plot.py}, python=3.11.5 + holoviews.
 \end{note}
 
-\section{Nonconvex Smooth Optimization Guarantee}
-Equipped with the bounding results on $f(x_{k+1})$ from the previous chapter, we will see what we can say about function with L-Lipschitz gradient and update rule:
+\section{NonConvex Smooth Optimization Guarantee}
+Equipped with the bounding results on $f(x_{k+1})$ from the previous chapter, without convexity, we will see what we can say about L-smooth function and update rule:
 \begin{equation*}
     x_{k+1} \leftarrow x_k - \alpha_k \nabla f(x_k)
 \end{equation*}
 
-\begin{theorem}
+\begin{theorem}[Bound on Average Gradient Norm for Nonconvex Functions]
     Suppose $f(x)$ is L-smooth, then for any $T > 0$, we have:
     \begin{equation*}
-        \frac{1}{T}\sum_{k=0}^{T-1}\|\nabla f(x_k) \|^2 \leq \frac{2L}{T}(f(x_0) - \min_{0\leq k \leq T-1}f(x_k))
+        \frac{1}{T}\sum_{k=0}^{T-1}\|\nabla f(x_k) \|^2 \leq \frac{2L}{T}(f(x_0) - \min_{0\leq k \leq T-1}f(x_k)) \leq \frac{2L}{T}(f(x_0) - \min_{x \in \mathbb{R}^d}f(x)) 
     \end{equation*}
     when we set $\alpha_k = \frac{1}{L}$, i.e. exact linesearch.
 
     In addition, with Armijo backtracking, we have:
     \begin{equation*}
-        \frac{1}{T}\sum_{k=0}^{T-1}\|\nabla f(x_k) \|^2 \leq \frac{\max \{ \frac{1}{\eta a}, \frac{L}{2\tau\eta(1-\eta)} \}}{T}(f(x_0) - \min_{0 \leq k \leq T-1}f(x_k))
+        \frac{1}{T}\sum_{k=0}^{T-1}\|\nabla f(x_k) \|^2 \leq \frac{\max \{ \frac{1}{\eta a}, \frac{L}{2\tau\eta(1-\eta)} \}}{T}(f(x_0) - \min_{x \in \mathbb{R}^d}f(x))
     \end{equation*}
 \end{theorem}
 \begin{proof}
     Use the bound of $f(x_{k+1})$ we derived from the previous section, i.e. descent lemma \ref{lemma:DescentLemma} and Armijo. Sum all of the inequalities up, then change $f(x_T)$ to $\min_{k}f(x_k)$
 \end{proof}
+
+This theorem describes the average pattern of the sequence of the gradients $\{ \nabla f(x_k) \}$, it indicates that there exists at least one $x_k^*$ such that $\| \nabla f(x_k^*) \|$ itself satisfies the inequality. Now let's first define what is a second-order critial point, and then see what we can get if we enforce convexity on the function. 
+
+\begin{definition}[Second-Order Critial Point]
+    Given $f(x)$ twice differentiable, a point $x^* \in \mathbb{R}^d$ is said to be the critial point of $f(x)$ if we have 
+    \begin{equation*}
+        \nabla f(x^*) = 0 \text{ and } \nabla^2f(x^*) \succeq \lambda I_n, \;\exists \lambda > 0
+    \end{equation*}
+\end{definition}
+
+\begin{theorem}
+    Assume $f(x) : \mathbb{R}^d \rightarrow \mathbb{R}$ is twice differentiable and $x^*$ being its second-order critial point, and there exists $\epsilon > 0$, such that if $x_k \in B_\epsilon(x^*)$ then $x_l \in B_\epsilon(x^*),\;\forall l \geq k$. Then, if $x_0$ is close to $x^*$ we have:
+    \begin{equation*}
+        f(x_T) - f(x^*) \leq (1 - \frac{\lambda^2}{4L^2})(f(x_{T-1}) - f(x^*))
+    \end{equation*}
+\end{theorem}
+
+This result has a strong implication, it means if it satisfies the conditions stated, then we have a quite fast(exponential) approximation to the optimal function value. Because both $\lambda$ and $L$ are constant once $f(x)$ is settled.
