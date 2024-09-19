@@ -13,4 +13,5 @@
 \contentsline {subsection}{\numberline {2.2.2}Law of Total Expectation/Variance}{9}{subsection.2.2.2}%
 \contentsline {subsection}{\numberline {2.2.3}Predictive Conditional Posterior Distribution}{9}{subsection.2.2.3}%
 \contentsline {subsection}{\numberline {2.2.4}Joint Inference for Mean and Variance}{9}{subsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.2.5}Clarification on Some Terms}{10}{subsection.2.2.5}%
 \contentsline {chapter}{\numberline {A}Normalization Tricks}{12}{appendix.A}%

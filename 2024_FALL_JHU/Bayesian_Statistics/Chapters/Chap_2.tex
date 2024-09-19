@@ -125,7 +125,7 @@ Previously, we derived our work by fixing $\sigma^2$. In this section, we will f
 \begin{equation*}
     \mathbf{P}(\theta, \sigma^2 | y_1, \ldots, y_n) \propto \mathbf{P}(y_1, \ldots, y_n | \theta, \sigma^2) \cdot \mathbf{P}(\theta | \sigma^2) \cdot \mathbf{P}(\sigma^2)
 \end{equation*}
-where the first two terms are already known to be $N(\theta, \sigma^2)$ and $N(\mu_0, \tau_0^2)$. It is obvious that if $\sigma^2$ also follows normal, then the posterior will also be a normal. However, it can be problematic if we model something as normal in practice, for example, the length or area of some objects since they can only take non-negative values. 
+where the first two terms are already known to be $N(\theta, \sigma^2)$ and $N(\mu_0, \tau_0^2)$. It is obvious that if $\sigma^2$ also follows normal, then the posterior will also be a normal. However, this is impossible because $\sigma^2$ must be non-negative even in the loosest case, where normal distribution is not legitimate.  
 
 To address this issue, we decomopse the posterior in a different way and assume a specific dependence of $\theta$ on $\sigma^2$.
 
@@ -147,4 +147,27 @@ where we can further write the second term in the following way:
     &=InvGamma \int Normal \cdot Normal \;d\theta \\
     &= InvGamma(\frac{\nu_n}{2}, \frac{\nu_n\sigma_n}{2})
 \end{align*}
-where $\nu_n = \nu_0 + n$, $\nu_n\sigma_n^2 = \nu_0\sigma_0^2 + (n-1)s^2 + \frac{K_0n}{K_0 + n}(\bar{y} - y_0)^2$, $K_0 = \frac{\sigma^2}{\tau_0^2}$. Here $K_0$ can be interpreted as the prior sample size. 
+where $\nu_n = \nu_0 + n$, $\nu_n\sigma_n^2 = \nu_0\sigma_0^2 + (n-1)s^2 + \frac{\kappa_0n}{\kappa_0 + n}(\bar{y} - y_0)^2$, $\kappa_0 = \frac{\sigma^2}{\tau_0^2}$. Here $\kappa_0$ can be interpreted as the prior sample size. 
+
+\subsection{Clarification on Some Terms}
+Many different notations popped in our previous discussion over normal models which can be confusing for first time readers. This section specifically addresses this issue. We will discuss and categorize the notations mentioned above for clarification purposes. 
+
+It's almost a mess when we are looking at $\theta, \sigma^2, \mu_0, \mu_n, \tau_0^2, \tau_n^2, \nu_0, \nu_n$ altogether, even with the context. As a matter of fact, they can be taken and categorized in the following ways:
+
+Firstly, $\theta, \sigma^2$ are the parameters of our true interest. It is the posterior of these two parameters that we truly care about. These two determines the sampling/predictive model. 
+\begin{equation*}
+    \tilde{Y} | \vec{Y} = \tilde{Y} | \theta, \sigma^2 \sim N(\theta, \sigma^2)
+\end{equation*}
+
+Secondly, the $(\mu_n, \tau_n)$ pair. This notation was introduced when we were studying the behavior when conditioned on fixed $\sigma^2$. In other words, they are the parameters of the conditional posterior of $\theta$
+\begin{equation*}
+    \theta | \vec{Y}, \sigma^2 \sim N(\mu_n, \tau_n^2)
+\end{equation*}
+And as for the initial pair $(\mu_0, \tau_0)$, they were the parameters for the prior
+\begin{equation*}
+    \theta | \sigma^2 \sim N(\mu_0, \tau_0^2)
+\end{equation*}
+
+Similarly, $\nu_0$ and $\nu_n$ are the parameters for the prior and posterior of $\sigma^2$ after we reintroduce $\sigma^2$ as a random variable. 
+
+From my current understanding and the lecture, $\kappa_0$ is understood as the prior sample size, which can be confusing since by definition this can be a decimal, and act as a relation between the params of two distribution without any necassary implicit relations.
