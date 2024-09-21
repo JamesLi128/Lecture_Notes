@@ -9,16 +9,16 @@ One of the most famous and frequently used optimization algorithms is the gradie
 \end{equation}
 Interestingly, this update formula can be interpreted in the following way:
 \begin{equation*}
-    x_{k+1} = \arg\min_x \{ f(x_k) + \langle \nabla f(x_k), x-x_k \rangle + \frac{1}{2\alpha_k}\|x-x_k\|^2 \}
+    x_{k+1} = \argmin_x \{ f(x_k) + \langle \nabla f(x_k), x-x_k \rangle + \frac{1}{2\alpha_k}\|x-x_k\|^2 \}
 \end{equation*}
-In fact, if we denote $h(x) = f(x_k) + \langle \nabla f(x_k), x-x_k \rangle + \frac{1}{2\alpha_k}\|x-x_k\|^2$, by checking the first-order necessary condition, we have 
+This means $x_{k+1}$ is the minimizer of the first-order approximation under quadratic distance penalty. In fact, if we denote $h(x) = f(x_k) + \langle \nabla f(x_k), x-x_k \rangle + \frac{1}{2\alpha_k}\|x-x_k\|^2$, by checking the first-order necessary condition, we have 
 \begin{equation*}
     \nabla h(x) = \nabla f(x_k) + \frac{1}{\alpha_k}(x - x_k)
 \end{equation*}
 By setting $\nabla h(x) = 0$, we derive $x_{k+1} = x = x_k - \alpha_k\nabla f(x_k)$, which is the same as formula \ref{eq:GradientDescentUpdateFormula}.
 
 \begin{note}
-    We can see that $h_k(x)$ is the Taylor expansion of $f(x)$ at $x_k$.
+    One straightforward understanding of $\alpha_k$ is the step size taken as illustrated in \ref{eq:GradientDescentUpdateFormula}. However, as a quadratic in $h(x)$, it also represents how tolerant we are to distant condidates. Higher $\alpha_k$ indicates greater tolerance, corresponding to the gentler speed of change in the quadratic. 
 \end{note}
 
 Since we are interested in the minimization and maximization potential of the update algorithm, it's worth to explore how the corresponding value $f(x)$ changes. 
@@ -35,31 +35,48 @@ Since we are interested in the minimization and maximization potential of the up
     \end{equation*}
 \end{proof}
 
-To minimize $f(x)$, we want the upper bound in lemma \ref{lemma:DescentLemma} to be as small as possible, meaning that we need to maximize $\alpha_k - \frac{L\alpha_k^2}{2}$. By solving this simple quadratic, we derive the ideal step size $\alpha_k = \frac{1}{L}$. However, this can be quite impractical since even if it's not a strong assumption to take functions we see in rea life over a fintie domain as Lipschitz, it can be difficult to determine the Lipschitz constant $L$. If we examine the update formula \ref{eq:GradientDescentUpdateFormula} closely, the only thing that needs external care is the step size $\alpha_k$. As a result, in the following we will discuss how to find a both effectively and pratically way to determine the step size $\alpha_k$.
+\begin{corollary}
+    If we take $\alpha_k = \frac{1}{L}$ as in exact linesearch, then we have:
+    \begin{equation*}
+        f(x_{k+1}) \leq f(x_k) - \frac{1}{2L} \| \nabla f(x_k) \|^2
+    \end{equation*}
+\end{corollary}
+
+To minimize $f(x)$, we want the upper bound in lemma \ref{lemma:DescentLemma} to be as small as possible, meaning that we need to maximize $\alpha_k - \frac{L\alpha_k^2}{2}$. By solving this simple quadratic, we derive the ideal step size $\alpha_k = \frac{1}{L}$. However, this can be quite impractical since even if it's not a strong assumption to take functions we see in real life over a fintie domain as Lipschitz, it can be difficult to determine the Lipschitz constant $L$ for an unknown function. If we examine the update formula \ref{eq:GradientDescentUpdateFormula} closely, the only thing that needs external care is the step size $\alpha_k$. As a result, in the following we will discuss how to find a both effectively and pratically way to determine the step size $\alpha_k$.
 
 \subsection{Exact Linesearch}
 
 A straight forward approach is to find the solution of the following optimization problem, which is also referred to as the exact line search:
 \begin{equation*}
-    \alpha_k = \argmin_{\alpha \in \mathbb{R}}f(x_k - \nabla f(x_k))
+    \alpha_k = \argmin_{\alpha \in \mathbb{R}}f(x_k - \alpha\nabla f(x_k))
 \end{equation*}
-Yet this can also be impractical because it means we have to solve an optimization problem at each step of update. In replacement to exact linesearch, we introduce the following backtracking linesearch algorithm.
+Yet this can also be impractical because it means we have to solve an optimization problem at each step of update. In replacement to exact linesearch, we introduce the following backtracking linesearch algorithm by \emph{Larry Armijo}.
 
 \subsection{Backtracking Linesearch}
-The idea of backtracking linesearch is quite simple, we start with a step size large enough, and then shrink it little by little until we observe sufficient descent. This can be formalized with the following two steps:
+The idea of backtracking linesearch is quite simple, we start with a step size large enough, and then shrink it little by little until we observe sufficient descent in $f(x)$. This can be formalized with the following two steps:
 \begin{enumerate}
-    \item Pick $\alpha \in \mathbb{R}_+$ and $\tau \in (0,1)$, decrease step size by $\alpha_n = a\tau^n$.
+    \item Pick $\alpha \in \mathbb{R}_{>0}$ and $\tau \in (0,1)$, decrease step size by $\alpha_n = a\tau^n$.
     \item To measure the descent, we use the so-called Armijo condition.
 \end{enumerate}
-\begin{definition}[Armijo Condition]
-    Pick $\eta \in (0,1)$, declare sufficient descent when $f(x_k - \alpha\nabla f(x_k)) \leq f(x_k) - \eta\alpha\|\nabla f(x_k)\|^2$
+\begin{definition}[Armijo Condition]\label{def:ArmijoCondition}
+    Pick $\eta \in (0,1)$, declare sufficient descent when 
+    \begin{equation*}
+        f(x_{k+1}) = f(x_k - \alpha\nabla f(x_k)) \leq f(x_k) - \eta\alpha\|\nabla f(x_k)\|^2
+    \end{equation*}
 \end{definition}
 
 Therefore, we can restate the backtracking algorithm as:
 \begin{equation*}
     \alpha_k = \max_n \{ a\tau^n : \text{Armijo condition holds for }\alpha = a\tau^n \}
 \end{equation*}
-One nice thing about Armijo's condition is that it clarifies the vague term "sufficient decsent". The right hand side of Armijo's condition is affine in $\alpha$, but the descent lemma \ref{lemma:DescentLemma} was in the quadratic of $\alpha$. This implies the existence of an $\alpha$ small enough such that the quadratic bound is lower than the linear bound. To be even clearer, we have the following range for step size $\alpha$.
+One nice thing about Armijo's condition is that it clarifies the vague term "sufficient decsent". Beacuse we have $\eta \in (0,1)$, we certainly have the linear upper bound in \ref{def:ArmijoCondition} to be greater than $f(x - \alpha \cdot \nabla f(x))$ for $\alpha \in (0, \epsilon)$. One thing worth noticing is that, for $\eta$ small enough, it is possible for us to obtain multiple disconnected intervals with $\alpha$ satisfying the sufficient descent condition like $\eta = 0.3$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.6]{plot_maker/Armijo_Sufficient_Descent/Armijo_sufficient_descent.png}
+\end{figure}
+
+Specifically, the following lemma describes the first Armijo interval near 0.
 
 \begin{lemma}\label{lemma:ArmijoStepSizeBound}
     The Armijo condition holds for 
@@ -79,7 +96,7 @@ One nice thing about Armijo's condition is that it clarifies the vague term "suf
 \end{proof}
 
 \begin{note}[Consequences of Backtracking Linesearch]
-    Firstly, for each search for step size $\alpha$, it needs no more than $\lceil \log_{\frac{1}{\tau}} (\frac{\alpha L}{2(1-\eta)}) \rceil $ steps to terminate. This bound is derived by asking $\alpha \tau^n \leq $ the bound in \ref{lemma:ArmijoStepSizeBound}. Secondly, we have $\alpha_k \geq \min\{ a, \frac{2\tau(1 - \eta)}{L} \}$ because we either find the sufficient descent at the first step, or find it no smaller than $\tau$ times the upper bound in \ref{lemma:ArmijoStepSizeBound}, which is the next iteration of step size. So we can rewrite the Armijo condition as:
+    Firstly, in searching for step size $\alpha$, it needs no more than $\lceil \log_{\frac{1}{\tau}} (\frac{\alpha L}{2(1-\eta)}) \rceil $ steps to terminate. This bound is derived by asking $\alpha \tau^n \leq $ the bound in \ref{lemma:ArmijoStepSizeBound}. Secondly, we have $\alpha_k \geq \min\{ a, \frac{2\tau(1 - \eta)}{L} \}$ because we either find the sufficient descent at the first step, or find it no smaller than $\tau$ times the upper bound in \ref{lemma:ArmijoStepSizeBound}, which is the next iteration of step size. So we can rewrite the Armijo condition as:
     \begin{align}
         f(x_{k+1}) &\leq f(x_k) - \eta \alpha_k\|\nabla f(x_k) \|^2 \\
         &\leq f(x_k) - \eta \min\{ a, \frac{2\tau(1-\eta)}{L} \} \cdot \|\nabla f(x_k) \|^2  \label{eq:ArmijoUpdateBound}
@@ -113,7 +130,7 @@ Equipped with the bounding results on $f(x_{k+1})$ from the previous chapter, wi
     \end{equation*}
 \end{theorem}
 \begin{proof}
-    Use the bound of $f(x_{k+1})$ we derived from the previous section, i.e. descent lemma \ref{lemma:DescentLemma} and Armijo. Sum all of the inequalities up, then change $f(x_T)$ to $\min_{k}f(x_k)$
+    Use the bound of $f(x_{k+1})$ we derived from the previous section, i.e. descent lemma \ref{lemma:DescentLemma} and Armijo. Sum all of the inequalities up, then change $f(x_k)$ to $\min f(x)$
 \end{proof}
 
 This theorem describes the average pattern of the sequence of the gradients $\{ \nabla f(x_k) \}$, it indicates that there exists at least one $x_k^*$ such that $\| \nabla f(x_k^*) \|$ itself satisfies the inequality. Now let's first define what is a second-order critial point, and then see what we can get if we enforce convexity on the function. 
@@ -132,4 +149,4 @@ This theorem describes the average pattern of the sequence of the gradients $\{ 
     \end{equation*}
 \end{theorem}
 
-This result has a strong implication, it means if it satisfies the conditions stated, then we have a quite fast(exponential) approximation to the optimal function value. Because both $\lambda$ and $L$ are constant once $f(x)$ is settled.
+This result has a strong implication, it means for functions with second-order critial points, or looser strongly convex functions, we have a quite fast(exponential) rate of approximation to the minimum. Because both $\lambda$ and $L$ are constant once $f(x)$ is settled.

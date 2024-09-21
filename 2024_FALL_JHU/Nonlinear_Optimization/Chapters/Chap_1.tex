@@ -54,9 +54,9 @@ It's not hard to see that these are just special cases of the Taylor Series for 
     \end{enumerate}
 \end{lemma}
 
-It's not hard to see how the differentiability is passed down to $\varphi(t)$. With this lemma, we can upper bound the approximation error in any direction with the following two theorems.
+It's not hard to see how the differentiability is passed down to $\varphi(t)$. With this lemma, we can upper bound the approximation error in any direction with the following theorems.
 
-\begin{theorem}[Taylor Expansion First-Order Approximation]
+\begin{theorem}[Taylor Approximation]
     Let $f(x)$ have L-Lipschitz continuous $\nabla f(x)$. Then for any $x, s \in \mathbb{R}^d$, we have
     \begin{equation}
         | f(x+ts) - (f(x) + t\nabla f^T(x)s) | \leq \frac{L}{2}t^2\|s\|^2
@@ -67,6 +67,9 @@ It's not hard to see how the differentiability is passed down to $\varphi(t)$. W
     \end{equation}
 \end{theorem}
 This means, if we enforce Lipschitz condition on $f(x)$, which is not very strict in practice, then the approximation error can be upper bounded by the square or the cude of $t\|s\|$. This shouldn't be surprising since it matches the residual of Taylor expansion. 
+\begin{note}
+    Taylor approximation comes in handy when we are trying to interpolate between function fluctutaions and the distance of change in $x$. It means whenever you have a bound in terms of the norm of $s$, you can rewrite it in terms of function values. Specifically, one can substitute the abs as brackets if $x$ is the minimizer of convex function $f(x)$.
+\end{note}
 
 
 \section{Optimality Conditions}
