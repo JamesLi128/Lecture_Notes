@@ -124,9 +124,25 @@ Now we will check how can we characterize smooth convex functions with the gradi
     \end{enumerate}
 \end{proposition}
 
-\begin{note}
-    To memorize the direction of the inequality, we should think the first order approximation supporing the entire convex function from below. 
-\end{note}
+\begin{remark}
+    To memorize the direction of the inequality in the second statement, we should think the first order approximation as the hyperplane supporting the entire epigraph from below. In addition, the last property is also referred to as monotonicity in the gradient, which is easy to verify for $\mathbb{R} \rightarrow \mathbb{R}$ where convexity equals to $f^{''}(x) \geq 0$. In higher dimensional spaces like $\mathbb{R}^d \rightarrow \mathbb{R}$, convexity actually implies the same monotonicity in directional derivatives. To formalize, we know that the directional derivative of $f$ at x in direction d is :
+    \begin{equation*}
+        D_f(x;d) = \nabla f(x)^Td
+    \end{equation*}
+    For the sake of the arguement, let's say $x$ is fixed and we can move $y$ around. Then for any direction $y-x$ pointing out of $x$, from the last condition in \ref{prop:FirstOrderConvexCharacterization}, 
+    \begin{equation*}
+        D_f(x;y-x) = \nabla f(x)^T(y-x)
+    \end{equation*}
+    Now, let's fix $y$ as well and compute the directional gradient of $y$ still in the directin of $y-x$, we have
+    \begin{equation*}
+        D_f(y;y-x) = \nabla f(y)^T(y-x)
+    \end{equation*}
+    Combining these two and the convexity condition, we have
+    \begin{equation*}
+        D_f(y;y-x) - D_f(x;y-x) = \langle \nabla f(y) - \nabla f(x), y-x \rangle \geq 0
+    \end{equation*}
+    To encapsulate, for any given point $x$ and direction $h$, directional derivative $D_f(x ; th)$ is monotonically non-decreasing in $t$, which can also be equally characterized by the following lemma.
+\end{remark}
 
 \begin{lemma}[Second-order Characterization of Convex Function]
     Assume convex function $f: \mathbb{R}^d \rightarrow \mathbb{R}$ is twice differentiable, then we have $f(x)$ is convex $\iff \nabla^2f(x) \succeq 0, \forall x \in \mathbb{R}^d$

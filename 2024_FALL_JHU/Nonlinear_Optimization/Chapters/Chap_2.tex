@@ -215,10 +215,87 @@ Convexity is nice, and we have seen what we can get out of functions with their 
 
 Again, provided the the equivalent charactrizations, let's explore the gurantees for the convergence of strongly convex functions.
 
-\begin{theorem}[Better Guarantees for Strongly Convex Functions]
+\begin{theorem}[Better Guarantees for Strongly Convex Functions]\label{thm:LSmoothStronglyConvexConvergenceGuarantee}
     Let $f: \mathbb{R}^d \rightarrow \mathbb{R}$ be $\mu$-strongly convex that's L-smooth. Then, Gradient Descent with $\alpha_k = \frac{2}{\mu + L}$ satisfies that 
     \begin{equation*}
         f(x_{k+1}) - \min_{x \in \mathbb{R}} f(x) \leq \frac{L}{2}(\frac{\kappa - 1}{\kappa + 1})^{2k} \|x_0 - x^*\|^2
     \end{equation*}
     where we have $\kappa = \frac{L}{\mu}$.
+\end{theorem}
+\begin{remark}
+    For L-smooth functions we have $\nabla^2f(x) \preceq LI_d$, and if it is also $\mu$-strongly convex we have $\nabla^2 f(x) \succeq \mu I_d$. In other words, we have
+    \begin{equation*}
+        LI_d \preceq \nabla^2f(x) \preceq \mu I_d
+    \end{equation*}
+\end{remark}
+
+To prove this theorem, we can use the following lemma who lower bounds the rate of increase in terms of both the drift in the input and the difference in the function gradients.
+\begin{lemma}
+    Given any function $f(x)$ L-smooth and $\mu$-strongly convex, we have that
+    \begin{equation*}
+        \langle \nabla f(y) - \nabla f(x), y-x \rangle \geq \frac{\mu L}{\mu + L}\| x-y \|^2 + \frac{1}{\mu + L} \| \nabla f(x) - \nabla f(y) \|^2
+    \end{equation*}
+\end{lemma}
+
+\begin{proof}[Proof of \ref{thm:LSmoothStronglyConvexConvergenceGuarantee}]
+    We want to bound the difference in function values, one approach is to first derive bounds on $\|x_{k+1} - x^* \|^2$ and then transfer that inequality condition to function difference via first-order Taylor approximation. We first expand the term $\| x_{k+1} - x^* \|^2$ by the definition of the norm. By using the lemma above, we can see why the step size was constructed in a way that the gradient term $\| \nabla f(x_k) \|^2$ can be eliminated. Then apply Taylor approximation. 
+\end{proof}
+
+
+\section{Algorithm: Nesterov's Accelerated Gradient Descent}
+The following table summarizes the rate of convergence for L-smooth(and strongly convex) functions with exact linesearch update rule. We have also seen the importance of step sizes over the convergence behavior of $f(x)$. The question is, can we do better? Previously we relied on stronger properties of $f(x)$ to get better results, is there a better update rule such that all of the functions can benefit from? The answer is Nesterov's accelerated gradient descent, which is also the topic for this section.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{c|c}
+        \rule{0pt}{4ex} Function Condition & $f(x_k) - \min f(x)$ \\
+        \hline
+        \rule{0pt}{4ex} L-Smooth & $O\left(\frac{1}{k}\right) \cdot \|x_0 - x^*\|^2$ \\
+        \rule{0pt}{4ex} L-smooth and $\mu$-strongly convex & $O\left(\left(\frac{\kappa - 1}{\kappa + 1}\right)^{2k}\right) \cdot \|x_0 - x^*\|^2$ \\
+    \end{tabular}
+    \caption{Recap on the rate of convergence for functions with different properties.}
+\end{table}
+
+\begin{minipage}{0.8\textwidth}  % Set width to 80% of text width
+    \centering
+    \begin{algorithm}[H]
+        \caption{Corrected Nesterov's Accelerated Gradient Descent}\label{algo:NesterovAcceleratedGD}
+        \KwIn{$x_0$, $f(x)$, $K$, $L$} % Input
+        \KwOut{Minimizer $x_K$}  % Output
+    
+        \textbf{Initialize:} $\lambda_0 \gets 0$, $y_0 \gets x_0$\;
+    
+        \For{$k = 0$ \KwTo $K-1$}{
+            $y_{k+1} \gets x_k - \frac{1}{L}\nabla f(x_k)$\;
+            $\lambda_{k+1} \gets \frac{1 + \sqrt{1 + 4\lambda_k^2}}{2}$\;
+            $\gamma_k \gets \frac{\lambda_k - 1}{\lambda_{k+1}}$\;
+            $x_{k+1} \gets y_{k+1} + \gamma_k (y_{k+1} - y_k)$\;
+        }
+        \Return{$x_K$}
+    \end{algorithm}
+    \vspace{2em}
+\end{minipage}
+
+\par
+
+This algorithm is also named as the \emph{momentum gradient descent} and the guarantee we will offer is over variables $y_k$, in other words, $x_k$ are taken as intermediate states in this case. In this sense, we should start our interpretation with $x_{k} = y_{k} + \gamma_k (y_{k} - y_{k-1})$, which is a momentum shift to the direction $y_{k} - y_{k-1}$. Then moving from $x_{k}$, an exact linesearch step forward to obtain $y_{k+1}$. Although this might seem like a torsion compared with the statement of the algorithm above, they are actually the same thing. The algorithm computes $y_{k+1}$ in the first place because we need it to initiate the algorithm. But once we have started, the interpretation should work like what's stated here. 
+
+\begin{lemma}
+    The sequence $\{\lambda_k\}$ satisfies
+    \begin{equation*}
+        \lambda_{k+1}^2 - \lambda_{k+1} = \lambda_k \text{ and } \lambda_k \geq \frac{k+1}{2}
+    \end{equation*}
+\end{lemma}
+
+\begin{lemma}
+    For any $u, v \in \mathbb{R}^d$, given $f(x)$ convex and L-smooth, we have 
+    \begin{equation*}
+        f(u - \frac{1}{L}\nabla f(u)) - f(v) \geq - \frac{1}{2L} \| \nabla f(u) \|^2 + \nabla f(u)^T(u-v)
+    \end{equation*}
+\end{lemma}
+
+\begin{theorem}[Nesterov's Convergence for L-smooth Convex Functions]
+    Let $f(x)$ be convex and L-smooth, and $x^* \in \argmin_{\mathbb{R}^d} f(x)$, then we have
+    \begin{equation*}
+        f(y_k) - \min f(x) \leq \frac{2L}{k^2} \| x_0 - x^* \|^2
+    \end{equation*}
 \end{theorem}

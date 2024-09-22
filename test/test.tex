@@ -1,0 +1,22 @@
+\documentclass{article}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{hyperref} % Load hyperref after algorithm
+
+\begin{document}
+
+\begin{algorithm}[H]
+    \caption{Nesterov's Accelerated Gradient Descent} \label{alg:nag}
+    \begin{algorithmic}[1]
+        \State \textbf{Input:} $x_0, f(x), K$
+        \State \textbf{Initialize:} $\lambda_1 \gets 1$
+        \For{$k = 1$ \textbf{to} $K$}
+            \State $\lambda_{k+1} \gets \frac{1 + \sqrt{1 + 4\lambda_k^2}}{2}$
+            \State Update step for $x_k$
+        \EndFor
+    \end{algorithmic}
+\end{algorithm}
+
+See Algorithm \ref{alg:nag} for the detailed steps.
+
+\end{document}
