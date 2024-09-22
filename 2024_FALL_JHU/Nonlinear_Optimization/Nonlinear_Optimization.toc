@@ -7,3 +7,5 @@
 \contentsline {subsection}{\numberline {2.1.1}Exact Linesearch}{7}{subsection.2.1.1}%
 \contentsline {subsection}{\numberline {2.1.2}Backtracking Linesearch}{7}{subsection.2.1.2}%
 \contentsline {section}{\numberline {2.2}NonConvex Smooth Optimization Guarantee}{8}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Better Guarantee for Convex Functions}{9}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Even Better for Strongly Convex Functions}{10}{section.2.4}%

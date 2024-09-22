@@ -117,7 +117,7 @@ Equipped with the bounding results on $f(x_{k+1})$ from the previous chapter, wi
     x_{k+1} \leftarrow x_k - \alpha_k \nabla f(x_k)
 \end{equation*}
 
-\begin{theorem}[Bound on Average Gradient Norm for Nonconvex Functions]
+\begin{theorem}[Bound on Average Gradient Norm for Nonconvex Functions]\label{thm:NonconvexGradientNormBound}
     Suppose $f(x)$ is L-smooth, then for any $T > 0$, we have:
     \begin{equation*}
         \frac{1}{T}\sum_{k=0}^{T-1}\|\nabla f(x_k) \|^2 \leq \frac{2L}{T}(f(x_0) - \min_{0\leq k \leq T-1}f(x_k)) \leq \frac{2L}{T}(f(x_0) - \min_{x \in \mathbb{R}^d}f(x)) 
@@ -150,3 +150,75 @@ This theorem describes the average pattern of the sequence of the gradients $\{ 
 \end{theorem}
 
 This result has a strong implication, it means for functions with second-order critial points, or looser strongly convex functions, we have a quite fast(exponential) rate of approximation to the minimum. Because both $\lambda$ and $L$ are constant once $f(x)$ is settled.
+
+\section{Better Guarantee for Convex Functions}
+In the previous section, we've seen that under L-smooth assumption only, the guarantee in \ref{thm:NonconvexGradientNormBound} is barely informative because it only tells about the average behavior. Although we do have the desired exponential drop, it requires the minimizer to be second-order critical. In this section we study what nice properties can be guaranteed if we add convexity to $f(x)$. We begin with analytical properties of L-smooth convex functions.
+
+\begin{lemma}[Charactrization of L-Smooth Convex Functions]\label{lemma:CharactrizationOfLSmoothConvex}
+    Suppose $f : \mathbb{R}^d \rightarrow \mathbb{R}$ is convex and differentiable, TFAE
+    \begin{enumerate}
+        \item $f(x)$ has L-Lipschitz gradient / L-smooth 
+        \item $\frac{L}{2}\| \cdot \|^2 - f(\cdot)$ is convex
+        \item $f(y) \leq f(x) + \langle \nabla f(x), y-x \rangle + \frac{L}{2}\|x-y\|^2,\; \forall x,y \in \mathbb{R}^d$
+        \item $\langle \nabla f(y) - \nabla f(x), y-x \rangle \geq \frac{1}{L}\|\nabla f(y) - \nabla f(x) \|^2 $ 
+        \item If $f(x)$ is twice differentiable, $\nabla^2 f(x) \preceq L I_d, \;\forall x \in \mathbb{R}^d$ 
+    \end{enumerate}
+\end{lemma}
+
+\begin{remark}
+    The interpretation of the statements can be interesting. The second property puts an "upper bound" on the convexity of $f(x)$ to be no greater than that of the quadratic $\frac{L}{2} \| \cdot \|$. As a L-smooth function, the growth rate of $f(x)$ can be limited by the first-order Taylor approximation, thus can be upper bounded by a quadratic while all convex functions are lower bounded by the supporting hyperplane/subgradient, aligning with the third statement. While the direct definition for L-smoothness is the upper bounded rate of change for the gradient with respect to the drift of $x$, condition 4 introduces a new perspective. It states that the rate of change of $\nabla f(x)$ is lower bounded by the change of the gradient itself. 
+\end{remark}
+
+Now given these charactrizations, we can provide some guarantees of convergence using gradient descent. Next, we will see what we can get with exact linesearch. But first, we will state an interesting property for exact line search over an L-smooth function.
+
+\begin{proposition}
+    Let $f:\mathbb{R}^d \rightarrow \mathbb{R}$ be L-smooth and $x^*$ be its minimizer. Then once $x_k \in B_\epsilon(x^*)$, we have $x_l \in B_\epsilon(x^*),\; \forall l \geq k$.
+\end{proposition}
+
+\begin{theorem}[Convex L-Smooth Convergence Guarantee]\label{thm:ConvexLSmoothConvergenceGuaranteeExactLinesearch}
+    If $f:\mathbb{R}^d \rightarrow \mathbb{R}$ is convex and L-smooth, let $x^*$ be a minimizer of $f(x)$, then by setting $\alpha_k = \frac{1}{L}$ we have:
+    \begin{equation*}
+        f(x_{k+1}) - \min_{x \in \mathbb{R}^d}f(x) \leq \frac{2L}{k} \| x_0 - x^* \|^2
+    \end{equation*}
+\end{theorem}
+\begin{note}
+    Some tricks used in the proof is worth reviewing, can be useful in some sequential-relation equations. This theorem states that the speed of convergence for convex L-smooth functions are determined by both the quality of initialization($x_0$) and the number of iterations.
+\end{note}
+
+\begin{corollary}
+    We can derive a similar guarantee for Armijo's backtracking linesearch by substituting the constant $L$ with something else.
+\end{corollary}
+
+
+\section{Even Better for Strongly Convex Functions}
+Convexity is nice, and we have seen what we can get out of functions with their Hessians upper bounded by $LI_n$. In this section, we explore functions with even stronger convexity conditions.
+
+\begin{definition}[Strong Convexity]
+    A function $f: \mathbb{R}^d \rightarrow \mathbb{R}$ is $\mu$-strongly convex if the following is also convex
+    \begin{equation*}
+        x \mapsto f(x) - \frac{\mu}{2}\|x\|^2
+    \end{equation*}
+\end{definition}
+
+\begin{lemma}[Charactrization of $\mu$-Strongly Convex Functions]
+    If $f: \mathbb{R}^d \rightarrow \mathbb{R}$, TFAE
+    \begin{enumerate}
+        \item $f(x)$ is $\mu$-strongly convex
+        \item $f(y) \geq f(x) + \langle \nabla f(x), y-x \rangle + \frac{\mu}{2}\|y-x\|^2, \; \forall x,y$
+        \item $\langle \nabla f(y) - \nabla f(x), y-x \rangle \geq \mu \|y-x\|^2, \; \forall x,y$
+        \item If $f(x)$ is further twice differentiable, then $\nabla^2f(x) \succeq \mu I_d$
+    \end{enumerate}
+\end{lemma}
+\begin{remark}
+    Since convexity is about having a lower bound on curvature, strong convexity basically implies stronger curvatures. In addition to the linear term, the second statement offers a quadratic lower bound on the increase of function values. The monotonicity condition moves to a strictly positive number from 0 as indicated in the third condition. The last one is in great contrast to L-smoothness where the equivalent condition has the opposite direction of inequality $\nabla^2 f(x) \preceq LI_d$.
+\end{remark}
+
+Again, provided the the equivalent charactrizations, let's explore the gurantees for the convergence of strongly convex functions.
+
+\begin{theorem}[Better Guarantees for Strongly Convex Functions]
+    Let $f: \mathbb{R}^d \rightarrow \mathbb{R}$ be $\mu$-strongly convex that's L-smooth. Then, Gradient Descent with $\alpha_k = \frac{2}{\mu + L}$ satisfies that 
+    \begin{equation*}
+        f(x_{k+1}) - \min_{x \in \mathbb{R}} f(x) \leq \frac{L}{2}(\frac{\kappa - 1}{\kappa + 1})^{2k} \|x_0 - x^*\|^2
+    \end{equation*}
+    where we have $\kappa = \frac{L}{\mu}$.
+\end{theorem}

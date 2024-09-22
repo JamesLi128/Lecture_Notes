@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.9)  21 SEP 2024 16:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.11.9)  21 SEP 2024 23:38
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -1622,7 +1622,7 @@ Package hyperref Info: bookmark level for unknown corollary defaults to 0 on inp
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 61.
-<plot_maker/Armijo_Sufficient_Descent/Armijo_sufficient_descent.png, id=161, 462.528pt x 346.896pt>
+<plot_maker/Armijo_Sufficient_Descent/Armijo_sufficient_descent.png, id=171, 462.528pt x 346.896pt>
 File: plot_maker/Armijo_Sufficient_Descent/Armijo_sufficient_descent.png Graphic file (type png)
 <use plot_maker/Armijo_Sufficient_Descent/Armijo_sufficient_descent.png>
 Package pdftex.def Info: plot_maker/Armijo_Sufficient_Descent/Armijo_sufficient_descent.png  used on input line 76.
@@ -1658,7 +1658,40 @@ Package mdframed Info: mdframed detected package amsthm
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 146.
-) [9]
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 157.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 169.
+Package hyperref Info: bookmark level for unknown remark defaults to 0 on input line 169.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 175.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 178.
+ [9]
+Package mdframed Info: Not enough space on this page on input line 183.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 185.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 189.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 196.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 203.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 213.
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 218.
+) [10]
 
 LaTeX Warning: Empty bibliography on input line 32.
 
@@ -1671,25 +1704,28 @@ L3 programming layer <2023-11-01>
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package rerunfilecheck Info: File `Nonlinear_Optimization.out' has not changed.
-(rerunfilecheck)             Checksum: DF8925D540549E958278AB106E9D0019;1096.
+(rerunfilecheck)             Checksum: 8B072A193BD270DA15BA70B10D3379C1;1621.
 Package logreq Info: Writing requests to 'Nonlinear_Optimization.run.xml'.
 \openout1 = `Nonlinear_Optimization.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 53487 strings out of 474272
- 1208966 string characters out of 5747519
- 2085059 words of memory out of 5000000
- 74694 multiletter control sequences out of 15000+600000
+ 53551 strings out of 474272
+ 1210347 string characters out of 5747519
+ 2084707 words of memory out of 5000000
+ 74729 multiletter control sequences out of 15000+600000
  584378 words of font info for 108 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,13n,107p,1358b,1116s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfss1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfsx1000.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfti1000.pfb>
-Output written on Nonlinear_Optimization.pdf (11 pages, 366160 bytes).
+Output written on Nonlinear_Optimization.pdf (12 pages, 376104 bytes).
 PDF statistics:
- 321 PDF objects out of 1000 (max. 8388607)
- 256 compressed objects within 3 object streams
- 95 named destinations out of 1000 (max. 500000)
- 74 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 369 PDF objects out of 1000 (max. 8388607)
+ 302 compressed objects within 4 object streams
+ 124 named destinations out of 1000 (max. 500000)
+ 90 words of extra memory for PDF output out of 10000 (max. 10000000)
 
