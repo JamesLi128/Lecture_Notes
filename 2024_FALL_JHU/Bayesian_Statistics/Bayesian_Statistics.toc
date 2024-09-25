@@ -14,4 +14,6 @@
 \contentsline {subsection}{\numberline {2.2.3}Predictive Conditional Posterior Distribution}{9}{subsection.2.2.3}%
 \contentsline {subsection}{\numberline {2.2.4}Joint Inference for Mean and Variance}{9}{subsection.2.2.4}%
 \contentsline {subsection}{\numberline {2.2.5}Clarification on Some Terms}{10}{subsection.2.2.5}%
-\contentsline {chapter}{\numberline {A}Normalization Tricks}{12}{appendix.A}%
+\contentsline {subsection}{\numberline {2.2.6}Monte Carlo Simulation and Marginal Posterior}{11}{subsection.2.2.6}%
+\contentsline {subsection}{\numberline {2.2.7}Weak but Improper Priors}{11}{subsection.2.2.7}%
+\contentsline {chapter}{\numberline {A}Normalization Tricks}{13}{appendix.A}%
