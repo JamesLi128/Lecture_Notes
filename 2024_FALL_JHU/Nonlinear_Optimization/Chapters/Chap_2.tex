@@ -1,4 +1,4 @@
-\chapter{Algorithms}
+\chapter{Grandient Descent}
 
 In this section, we will go through several optimization algorithms and some bounds.
 
@@ -298,4 +298,22 @@ This algorithm is also named as the \emph{momentum gradient descent} and the gua
     \begin{equation*}
         f(y_k) - \min f(x) \leq \frac{2L}{k^2} \| x_0 - x^* \|^2
     \end{equation*}
+\end{theorem}
+
+
+\section{Lower Bound}
+Until this point, we have seen many different algorithms under the regime of gradient descent that offers guarantees on the rate of convergence under certain conditions, like L-smooth, convex, even strongly convex. One intersting and vital question to ask is: what is the best we can do? What is the best we can do with gradient descent algorithms? In this section, we offer an lower bound on the rate of convergence using gradient descent. 
+
+To be clear of our scope of study, we restrict ourselves with the following way of update:
+\begin{equation*}
+    x_k \in \{x_0\} + span \{\nabla f(x_0), \ldots, \nabla f(x_{k-1})\}
+\end{equation*}
+This formula should directly give us an intuition on why this method has a lower bound, especially when $k$ is small. As the dimension of $x$ getting larger, we need more gradients serving as a new basis of the input space so as to explore in any direction we want, which should be what we need when we are trying to optimize a hard function. This idea corresponds to the following theorem:
+
+\begin{theorem}[Lower Bound on Convergence with Small k]
+    For any $1 \leq k \leq \frac{1}{2} (d-1)$ and $L \geq 0$. There exists a function $f: \mathbb{R}^d \rightarrow \mathbb{R}$ with L-Lipschitz gradient such that any algorithm falling in the above regime has the following holds:
+    \begin{equation*}
+        f(x_k) - \min f \geq \frac{3L}{32}\frac{\| x_0 - x^* \|^2}{(k+1)^2}
+    \end{equation*}
+    and  $\| x_k - x^* \| \geq \frac{1}{2} \|x_0 - x^* \|^2$.
 \end{theorem}

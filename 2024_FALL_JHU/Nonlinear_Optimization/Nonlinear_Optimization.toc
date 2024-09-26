@@ -2,7 +2,7 @@
 \contentsline {section}{\numberline {1.1}Calculus Review}{2}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Optimality Conditions}{3}{section.1.2}%
 \contentsline {section}{\numberline {1.3}Basics of Convexity}{3}{section.1.3}%
-\contentsline {chapter}{\numberline {2}Algorithms}{6}{chapter.2}%
+\contentsline {chapter}{\numberline {2}Grandient Descent}{6}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Algorithm: Gradient Descent}{6}{section.2.1}%
 \contentsline {subsection}{\numberline {2.1.1}Exact Linesearch}{7}{subsection.2.1.1}%
 \contentsline {subsection}{\numberline {2.1.2}Backtracking Linesearch}{7}{subsection.2.1.2}%
@@ -10,3 +10,4 @@
 \contentsline {section}{\numberline {2.3}Better Guarantee for Convex Functions}{9}{section.2.3}%
 \contentsline {section}{\numberline {2.4}Even Better for Strongly Convex Functions}{10}{section.2.4}%
 \contentsline {section}{\numberline {2.5}Algorithm: Nesterov's Accelerated Gradient Descent}{11}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Lower Bound}{12}{section.2.6}%
