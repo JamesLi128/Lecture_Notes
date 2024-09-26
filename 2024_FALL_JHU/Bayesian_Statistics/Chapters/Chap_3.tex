@@ -1,1 +1,9 @@
 \chapter{Gibbs Sampling}
+
+While not much to include, a new chapter is opened for Gibbs sampling due to both of its efficiency especially when the situation is complicated, and its effectiveness which is obtained via Markov Chain. First we will introduce how it's done, and then explain why it's good. 
+
+Gibbs sampling was introduced in class as a better replacement for plain Monte Carlo method in high dimensional cases. Say we have a prior distribution of parameters $\{ \theta_i \}_{i=1}^p$ as $\mathbf{P}(\theta_1, \ldots, \theta_p)$. While we don't know what the joint distribution is, we assume we know the conditional distribution 
+\begin{equation*}
+    \mathbf{P}(\theta_j | \theta_1, \ldots, \hat{\theta_j}, \ldots, \theta_p)
+\end{equation*}
+where $\hat{\theta_j}$ means the j-th parameter is omitted. 
