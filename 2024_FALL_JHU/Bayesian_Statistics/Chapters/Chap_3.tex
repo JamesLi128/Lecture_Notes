@@ -4,6 +4,9 @@ While not much to include, a new chapter is opened for Gibbs sampling due to bot
 
 Gibbs sampling was introduced in class as a better replacement for plain Monte Carlo method in high dimensional cases. Say we have a prior distribution of parameters $\{ \theta_i \}_{i=1}^p$ as $\mathbf{P}(\theta_1, \ldots, \theta_p)$. While we don't know what the joint distribution is, we assume we know the conditional distribution 
 \begin{equation*}
-    \mathbf{P}(\theta_j | \theta_1, \ldots, \hat{\theta_j}, \ldots, \theta_p)
+    \mathbf{P}(\theta_j | \theta_1, \ldots, \hat{\theta_j}, \ldots, \theta_p),\quad \forall \; 1\leq j \leq p
 \end{equation*}
-where $\hat{\theta_j}$ means the j-th parameter is omitted. 
+where $\hat{\theta_j}$ means the j-th parameter is omitted. Then we can start by selecting \textbf{ANY} initial values $(\theta_0, \ldots, \theta_p)$ as long as they are in the domain. After that, we update each parameter/entry at a time while fixing the resting of the values fixed. In other words, we would firstly sample from:
+\begin{equation*}
+    \theta_1 | \hat{\theta_1} \sim 
+\end{equation*}
