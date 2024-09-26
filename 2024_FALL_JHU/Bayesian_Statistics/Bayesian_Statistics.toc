@@ -17,4 +17,4 @@
 \contentsline {subsection}{\numberline {2.2.6}Monte Carlo Simulation and Marginal Posterior}{11}{subsection.2.2.6}%
 \contentsline {subsection}{\numberline {2.2.7}Weak but Improper Priors}{11}{subsection.2.2.7}%
 \contentsline {chapter}{\numberline {3}Gibbs Sampling}{12}{chapter.3}%
-\contentsline {chapter}{\numberline {A}Normalization Tricks}{14}{appendix.A}%
+\contentsline {chapter}{\numberline {A}Normalization Tricks}{15}{appendix.A}%

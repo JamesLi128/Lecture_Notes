@@ -2,11 +2,43 @@
 
 While not much to include, a new chapter is opened for Gibbs sampling due to both of its efficiency especially when the situation is complicated, and its effectiveness which is obtained via Markov Chain. First we will introduce how it's done, and then explain why it's good. 
 
+\section*{What is going on?}
 Gibbs sampling was introduced in class as a better replacement for plain Monte Carlo method in high dimensional cases. Say we have a prior distribution of parameters $\{ \theta_i \}_{i=1}^p$ as $\mathbf{P}(\theta_1, \ldots, \theta_p)$. While we don't know what the joint distribution is, we assume we know the conditional distribution 
 \begin{equation*}
     \mathbf{P}(\theta_j | \theta_1, \ldots, \hat{\theta_j}, \ldots, \theta_p),\quad \forall \; 1\leq j \leq p
 \end{equation*}
-where $\hat{\theta_j}$ means the j-th parameter is omitted. Then we can start by selecting \textbf{ANY} initial values $(\theta_0, \ldots, \theta_p)$ as long as they are in the domain. After that, we update each parameter/entry at a time while fixing the resting of the values fixed. In other words, we would firstly sample from:
+where $\hat{\theta_j}$ means the j-th parameter is omitted. Then we can start by selecting \textbf{ANY} initial values $(\theta_1^{(0)}, \ldots, \theta_p^{(0)})$ as long as they are in the domain. After that, we update each parameter/entry at a time while fixing the resting of the values fixed. In other words, we would firstly sample from:
 \begin{equation*}
-    \theta_1 | \hat{\theta_1} \sim 
+    \theta_1 | \hat{\theta_1} \sim \mathbf{P}(\theta_1 | \hat{\theta_1})
 \end{equation*}
+We denote the this observation as $\theta_1^{(1)}$ and right now the entire tuple of parameters has experienced the following change
+\begin{equation*}
+    (\theta_1^{(0)}, \theta_2^{(0)}, \ldots, \theta_p^{(0)}) \rightarrow (\theta_1^{(1)}, \theta_2^{(0)}, \ldots, \theta_p^{(0)})
+\end{equation*}
+After that, we focus on $\theta_2$ and sample one observation from the corresponding distribution
+\begin{equation*}
+    \theta_2 | \hat{\theta_2} \sim \mathbf{P}(\theta_2 | \hat{\theta_2})
+\end{equation*}
+And now we plug the new sampled point $\theta_2^{(1)}$ in the tuple and have
+\begin{equation*}
+    (\theta_1^{(1)}, \theta_2^{(0)}, \ldots, \theta_p^{(0)}) \rightarrow (\theta_1^{(1)}, \theta_2^{(1)}, \theta_3^{(0)}, \ldots, \theta_p^{(0)})
+\end{equation*}
+We continue the scan until the p-th parameter is updated and the result looks like
+\begin{equation*}
+    (\theta_1^{(1)}, \ldots, \theta_p^{(1)})
+\end{equation*}
+Till this point, we can say that we have finished an entire scan. Then we can continue this pattern until we have reached the diresed number of iterations. We can interpret each step of Gibbs sampling as moving along one of the axes in the parameter space while the other parameters are fixed. 
+
+\section*{Why is it good?}
+From my point of view, Gibbs sampling is beneficial mostly because it's efficiency in generating samples in the parameter space. This can be broken down to two main reasons.
+
+\subsection*{Complicated even Intractable Joint Prior Distribution}
+Sometimes, especially when the number of parameters goes to a crazy level, the joint prior $\mathbf{P}(\theta_1, \ldots, \theta_p)$ can be hard to obtain. Even if we can model this joint distribution in a hierarchical way(conditioned on the other parameters), for each data points obtained through Monte Carlo, we have to sampling at least $p$ times to get all of the coordinates $(\theta_1, \ldots, \theta_p)$. In other words, we have to firstly sample from $\theta_p$, and then $\theta_{p-1} | \theta_p$, all the way to $\theta_1 | \theta_2, \ldots, \theta_p$ in order to get a data point from the parameter space $\Theta$. 
+
+In contrast, when we are doing Gibbs sampling, although it seems like we are doing things that are quite similar, we actually finds a data point each time we update an \textbf{ENTRY}. In other words, $(\theta_1^{(1)}, \theta_2^{(0)}, \ldots, \theta_p^{(0)})$ is a new data point. So we only need to sample from one distribution to get a parameter data point instead of $p$ times just like Monte Carlo. 
+
+\subsection*{Curse of Dimension}
+Another reason is derived from the curse of dimensionality. The volume of an object grows exponentially with the dimension. This significantly increases the parameter space, which means we need a lot more points so as to get an plausible interpretation/simulation on the real joint prior distribution. And again, from the arguement above, the efficiency of Gibbs sampling makes it suitable for high-dimensional filthy simulations. 
+
+\section*{Any Downside?}
+Nothing is perfect, Gibbs sampling's problem I think mainly embeds in it's sensitivity to initial configurations. Although as a Markov Chain it converges to the joint distribution as the number of iteration goes to infinity, still, just like the case of CLT, there's no way a priori we can know what is the sufficient number of iterations to obtain a satisfactory simulation. On the contrary, although expensive, sampling directly from the joint distribution is guaranteed to be \emph{objective}.
