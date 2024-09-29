@@ -306,9 +306,9 @@ Until this point, we have seen many different algorithms under the regime of gra
 
 To be clear of our scope of study, we restrict ourselves with the following way of update:
 \begin{equation*}
-    x_k \in \{x_0\} + span \{\nabla f(x_0), \ldots, \nabla f(x_{k-1})\}
+    x_k \in span \{x_0, \nabla f(x_0), \ldots, \nabla f(x_{k-1})\}
 \end{equation*}
-This formula should directly give us an intuition on why this method has a lower bound, especially when $k$ is small. As the dimension of $x$ getting larger, we need more gradients serving as a new basis of the input space so as to explore in any direction we want, which should be what we need when we are trying to optimize a hard function. This idea corresponds to the following theorem:
+This relation should directly give us an intuition on why this method has a lower bound, especially when $k$ is small. As the dimension of $x$ getting larger, we need more gradients serving as a new basis of the input space so as to explore in any direction we want, which should be what we need when we are trying to optimize a hard function. This idea corresponds to the following theorem:
 
 \begin{theorem}[Lower Bound on Convergence with Small k]
     For any $1 \leq k \leq \frac{1}{2} (d-1)$ and $L \geq 0$. There exists a function $f: \mathbb{R}^d \rightarrow \mathbb{R}$ with L-Lipschitz gradient such that any algorithm falling in the above regime has the following holds:
@@ -317,3 +317,5 @@ This formula should directly give us an intuition on why this method has a lower
     \end{equation*}
     and  $\| x_k - x^* \| \geq \frac{1}{2} \|x_0 - x^* \|^2$.
 \end{theorem}
+
+In other words, no matter how smart your algorithm is, as long as it's gradient-based, there always exists a hard function that can't be optimzied  well when $k$ is small. However, one important thing to notice is that this belief is invalid once we go beyond $\frac{1}{2}(d-1)$ number of iterations. As a matter of fact, there exists an algorithm specifically tailored for minimizing $\|Ax - b\|^2$ whose loss suddenly drops steeply as soon as $k$ gets larger than a threshold. So it's worth noticing that after the threshould the convergence behavior is mainly controlled by the upper bound we studied before. 
