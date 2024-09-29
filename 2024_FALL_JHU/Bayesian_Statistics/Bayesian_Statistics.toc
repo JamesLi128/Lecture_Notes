@@ -17,4 +17,8 @@
 \contentsline {subsection}{\numberline {2.2.6}Monte Carlo Simulation and Marginal Posterior}{11}{subsection.2.2.6}%
 \contentsline {subsection}{\numberline {2.2.7}Weak but Improper Priors}{11}{subsection.2.2.7}%
 \contentsline {chapter}{\numberline {3}Gibbs Sampling}{12}{chapter.3}%
-\contentsline {chapter}{\numberline {A}Normalization Tricks}{15}{appendix.A}%
+\contentsline {chapter}{\numberline {4}Multivariate Normal Model}{14}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Semi-Conjugate Prior}{14}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}$\theta $ as Multivariate Normal}{14}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}$\Sigma $ as Inverse-Wishart}{15}{subsection.4.1.2}%
+\contentsline {chapter}{\numberline {A}Normalization Tricks}{18}{appendix.A}%

@@ -150,7 +150,9 @@ where we can further write the second term in the following way:
 where $\nu_n = \nu_0 + n$, $\nu_n\sigma_n^2 = \nu_0\sigma_0^2 + (n-1)s^2 + \frac{\kappa_0n}{\kappa_0 + n}(\bar{y} - y_0)^2$, $\kappa_0 = \frac{\sigma^2}{\tau_0^2}$. Here $\kappa_0$ can be interpreted as the prior sample size. 
 
 \subsection*{Semi-Conjugate Case}
-In the first chapter, we introduced conjugate prior which together with sampling model form a distribution pair whose posterior falls into the same family of distribution just like the piror. However, this can be hard to generalize to multi-paramter cases just like the normal model in the previous section where the posterior only coincides with the prior of $\theta | \sigma^2$. As a result, we define this situation as having semi-conjugate priors.
+In the previous example, by modeling the normal model to be \emph{normal-inverse-gamma}, we obtained a full-conjugate configuration. We have $\theta | \sigma^2, \vec{Y}$ samely distributed as $\theta | \sigma^2$ as normal, and $\sigma^2 | \vec{Y}$ samely distributed as $\sigma^2$ as inverse gamma. What's more important is that, this kind of structure allows the parameters to be implicitly connected, i.e. having $\theta$ dependent on $\sigma^2$.
+
+However, this might not always be the case in real life. In some cases, a priori we may believe that $\theta$ and $\sigma^2$ are in fact independent to each other, i.e. $\theta = \theta | \sigma^2$. We refer to this situation or this kind of modeling structure as semi-conjugate. While it still allows conjugate behaviors, the core difference compared with full-conjugate is the way we model the distribution of parameters. 
 
 \subsection{Clarification on Some Terms}
 Many different notations popped in our previous discussion over normal models which can be confusing for first time readers. This section specifically addresses this issue. We will discuss and categorize the notations mentioned above for clarification purposes. 
