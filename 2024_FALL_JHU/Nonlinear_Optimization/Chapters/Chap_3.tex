@@ -5,6 +5,70 @@ In this chapter we will study proximal method which can be seen as a generalizat
 Many problems in real life can be ill-posed due to the lack of information. For example, in solving the linear system
 
 \begin{equation*}
-    Ax = b
+    Ax = b, \quad A \in \mathbb{R}^{n \times p}
 \end{equation*}
-It can be solved if 
+It can be solved if $A$ is tall and thin, i.e. $n \gg p$. But for most of the time in science, what available is a fat and short one. This means the matrix $A$ is probably not full-rank, which means the solution is not unique. But picking from a space of solution can be subjective sometimes and hard to justify. A natural idea is to add additional restrictions(structure) on top of the existing problem so as to narrow down the parameter space where we are exploring for answers. In this way, we can hope/guarantee the uniqueness of the solution. One way to solve this problem is through adding $L^1$ norm restriction on the parameters $x$, which is also famously known as Lasso regression:
+\begin{equation*}
+    \min_{x \in \mathbb{R}^d} \|Ax - b\|^2 + \lambda\|x\|_1
+\end{equation*}
+By adding this restriction, we are favoring smaller parameters in hope for better robustness. 
+
+Another interesting exmaple is the Netflix Recommendation System challenge which can be mathematically formulated as a matrix recovery problem. Given a matrix $X \in \mathbb{R}^{d_1 \times d_2}$ such that
+\begin{equation*}
+    \mathcal{A}(X) = b
+\end{equation*}
+where operator $\mathcal{A}$ maps $X \mapsto \mathbb{R}^m$ with $m \ll d_1 \times d_2$. Similarly, in order to preserve the low-rank property, the problem is formulated as:
+\begin{equation*}
+    \min \|\mathcal{A}(X) - b \|^2_2 + \lambda\|X\|_*
+\end{equation*}
+where $\| X \|_* = \sum_{i=1}^{\min d_1, d_2}\sigma_i(X)$ refers to the nuclear norm.
+
+\begin{remark}
+    The common pattern between the above two examples is that they are all formed in the following way
+    \begin{equation*}
+        \min_{x} f(x) + h(x)
+    \end{equation*}
+    where $f(x)$ is smooth/differentiable, and $h(x)$ is convex and has a nice decomposition. 
+\end{remark}
+
+This insight leads us into the object we are going to study.
+
+\section{Proximal Operator}
+Algorithms are usually inspired by the idea of approximation, just like gradient descent. We proved that the update rule
+\begin{equation*}
+    x_{k+1} \leftarrow x_k - \alpha_k \nabla f(x_k)
+\end{equation*}
+is equivalent to solving the following approximation 
+\begin{equation*}
+    x_{k+1} \leftarrow \argmin \{ f(x_{k}) + \langle \nabla f(x_k), x-x_k \rangle + \frac{1}{2\alpha_k}\|x - x_k\|^2 \}
+\end{equation*}
+
+As a result, gradient descent can be viewed as a special case of proximal method where $f(x) = f(x_{k}) + \langle \nabla f(x_k), x-x_k \rangle$ is differentiable, and $h(x) = \frac{1}{2\alpha_k}\|x - x_k\|^2$ is convex. To formulate this, we consider any given closed convex function $\psi : \mathbb{R}^d \rightarrow \mathbb{R}\cup\{+\infty\}$, the proximal operator is defined as
+\begin{equation}
+    prox_{\alpha \psi}(x) = \argmin_{z \in \mathbb{R}^d} \{ \psi(z) + \frac{1}{2\alpha}\|z - x \|^2 \}
+\end{equation}
+
+One thing that needs clarification is that we used $=$ instead of $\in$ in the definition of the proximal operator, this is guaranteed by the fact that $\psi(z) + \frac{1}{2\alpha}\|z - x \|^2$ is a strongly convex function, resulting in a unique minimizer. This gives the following statement.
+\begin{lemma}
+    The proximal operator is well defined.
+\end{lemma}
+
+To solve the general optimization problem, we have the following necessary condition to follow.
+\begin{lemma}
+    Let $\psi : \mathbb{R}^d \rightarrow \mathbb{R}\cup\{+\infty\}$ be a closed convex function and $f : \mathbb{R}^d \rightarrow \mathbb{R}$ be a smooth function. Let $x^* \in \argmin \psi(x) + f(x)$, then we have
+    \begin{equation*}
+        - \nabla f(x^*) \in \partial \psi(x^*)
+    \end{equation*}
+\end{lemma}
+\begin{note}
+    We can't prove this using subdifferential calculus since it requires both $f(x)$ and $\psi(x)$ to be convex. 
+\end{note}
+
+Furthermore, if we ask $f(x)$ to be also convex, for this special case the necessary condition for the proximal operator is described in the following corollary.
+\begin{corollary}
+    Same configuration as above, with $f(x)$ being convex, then $x^+ = prox_{\alpha\psi}(x) \iff $ 
+    \begin{equation*}
+        \frac{x - x^+}{\alpha} \in \partial \psi(x^+) 
+    \end{equation*}
+
+\end{corollary}
