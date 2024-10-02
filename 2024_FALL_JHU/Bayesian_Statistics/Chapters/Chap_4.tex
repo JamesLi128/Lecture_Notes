@@ -126,3 +126,40 @@ In other words, we have completed the dependency plot
     
     \end{tikzpicture}
 \end{center}
+
+
+\section{Full-Conjugate Prior}
+In the previous section, we have seen how the semi-conjugate case works for modeling MVN-InvWishart prior. Now we take a look at the full-conjugate case. Quite similar to the 1-dimensional case, we add an additional dependency of the mean $\vec{\theta}$ over the covariance matrix $\Sigma$. From base to top, let's dig a little more on the Wishart. 
+
+\begin{center}
+    \begin{tikzpicture}[>=stealth, node distance=2cm and 4cm]
+    
+        % Define nodes in the first column (left)
+        \node[draw, rectangle] (A1) at (0,0) {$\vec{\mu_0}$};
+        \node[draw, rectangle] (A2) at (0,-1.5) {$\Lambda_0$};
+        \node[draw, rectangle] (A3) at (0,-3) { $\nu_0$ };
+        \node[draw, rectangle] (A4) at (0,-4.5) { $ S_0^{-1} $ };
+        
+        % Define nodes in the second column (middle)
+        \node[draw, circle] (B1) at (4,-1) {$\vec{\theta}$};
+        \node[draw, circle] (B2) at (4,-3.5) {$\Sigma$};
+        
+        % Define node in the third column (right)
+        \node[draw, circle] (C1) at (8,-2.25) {$Y_{i}$};
+        
+        % Draw arrows connecting the first column to the second column
+        \draw[->] (A1) -- (B1);
+        \draw[->] (A2) -- (B1);
+        \draw[->] (A3) -- (B2);
+        \draw[->] (A4) -- (B2);
+        
+        % Draw arrows connecting the second column to the third column
+        \draw[->] (B1) -- (C1);
+        \draw[->] (B2) -- (C1);
+
+        \draw[red, thick, ->] (B2) -- (B1) node[midway, above] {conjugate};
+    
+    \end{tikzpicture}
+\end{center}
+
+\subsection{More on Wishart}
