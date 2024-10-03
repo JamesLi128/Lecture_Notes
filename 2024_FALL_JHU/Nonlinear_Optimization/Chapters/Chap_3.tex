@@ -43,32 +43,86 @@ is equivalent to solving the following approximation
     x_{k+1} \leftarrow \argmin \{ f(x_{k}) + \langle \nabla f(x_k), x-x_k \rangle + \frac{1}{2\alpha_k}\|x - x_k\|^2 \}
 \end{equation*}
 
-As a result, gradient descent can be viewed as a special case of proximal method where $f(x) = f(x_{k}) + \langle \nabla f(x_k), x-x_k \rangle$ is differentiable, and $h(x) = \frac{1}{2\alpha_k}\|x - x_k\|^2$ is convex. To formulate this, we consider any given closed convex function $\psi : \mathbb{R}^d \rightarrow \mathbb{R}\cup\{+\infty\}$, the proximal operator is defined as
+As a result, gradient descent can be viewed as a special case of proximal method where $f(x) = f(x_{k}) + \langle \nabla f(x_k), x-x_k \rangle$ is differentiable, and $h(x) = \frac{1}{2\alpha_k}\|x - x_k\|^2$ is convex. To formulate this, we consider any given closed convex function $h : \mathbb{R}^d \rightarrow \mathbb{R}\cup\{+\infty\}$, the proximal operator is defined as
 \begin{equation}
-    prox_{\alpha \psi}(x) = \argmin_{z \in \mathbb{R}^d} \{ \psi(z) + \frac{1}{2\alpha}\|z - x \|^2 \}
+    prox_{\alpha h}(x) = \argmin_{z \in \mathbb{R}^d} \{ h(z) + \frac{1}{2\alpha}\|z - x \|^2 \}
 \end{equation}
 
-One thing that needs clarification is that we used $=$ instead of $\in$ in the definition of the proximal operator, this is guaranteed by the fact that $\psi(z) + \frac{1}{2\alpha}\|z - x \|^2$ is a strongly convex function, resulting in a unique minimizer. This gives the following statement.
+One thing that needs clarification is that we used $=$ instead of $\in$ in the definition of the proximal operator, this is guaranteed by the fact that $h(z) + \frac{1}{2\alpha}\|z - x \|^2$ is a strongly convex function, resulting in a unique minimizer. This gives the following statement.
 \begin{lemma}
     The proximal operator is well defined.
 \end{lemma}
 
-To solve the general optimization problem, we have the following necessary condition to follow.
-\begin{lemma}
-    Let $\psi : \mathbb{R}^d \rightarrow \mathbb{R}\cup\{+\infty\}$ be a closed convex function and $f : \mathbb{R}^d \rightarrow \mathbb{R}$ be a smooth function. Let $x^* \in \argmin \psi(x) + f(x)$, then we have
+The proximal operator can be also seen as a special case of the following configuration:
+\begin{equation*}
+    \argmin_{x \in \mathbb{R}^d} f(x) + h(x)
+\end{equation*}
+where $f(x)$ is smooth and $h(x)$ closed convex. We have the following necessary condition for this optimization problem. 
+\begin{lemma}\label{lemma:CompositeMinNecessary}
+    Let $h : \mathbb{R}^d \rightarrow \mathbb{R}\cup\{+\infty\}$ be a closed convex function and $f : \mathbb{R}^d \rightarrow \mathbb{R}$ be a smooth function. Let $x^* \in \argmin f(x) + h(x)$, then we have
     \begin{equation*}
-        - \nabla f(x^*) \in \partial \psi(x^*)
+        - \nabla f(x^*) \in \partial h(x^*)
     \end{equation*}
 \end{lemma}
+\begin{proof}
+    The proof is done by using the definition of subdifferential, the definition of the gradients, and that $x^*$ is the minimizer. 
+\end{proof}
 \begin{note}
-    We can't prove this using subdifferential calculus since it requires both $f(x)$ and $\psi(x)$ to be convex. 
+    We can't prove this using subdifferential calculus since it requires both $f(x)$ and $h(x)$ to be convex. 
 \end{note}
 
-Furthermore, if we ask $f(x)$ to be also convex, for this special case the necessary condition for the proximal operator is described in the following corollary.
-\begin{corollary}
-    Same configuration as above, with $f(x)$ being convex, then $x^+ = prox_{\alpha\psi}(x) \iff $ 
+Furthermore, if we ask $f(x)$ to be also convex, then this is not only necessary, but the sufficient condition. 
+\begin{lemma}
+    Let $h(x)$ be closed convex and $f(x)$ smooth convex. Then we have
     \begin{equation*}
-        \frac{x - x^+}{\alpha} \in \partial \psi(x^+) 
+        x^* \in \argmin_x f(x) + h(x) \iff -\nabla f(x^*) \in \partial h(x^*)
     \end{equation*}
+\end{lemma}
 
+As a special case of the above lemma, where $f(z) = \frac{1}{2\alpha}\|x-z\|^2$ is smooth convex, the output of proximal operator satisfies the necessary sufficient condition.
+\begin{corollary}\label{corollary:ProximalOperatorNecessarySufficient}
+    \begin{equation*}
+        x^+ = prox_{\alpha h}(x) \iff \frac{x - x^+}{\alpha} \in \partial h(x^+)
+    \end{equation*}
 \end{corollary}
+
+
+\section{Interpretation on Proximal Operator}
+The interpretation can be explain from two different perspectives, the first one arises from the analysis of the general composite optimization problem
+\begin{equation*}
+    \argmin_{x \in \mathbb{R}^d} f(x) + h(x)
+\end{equation*}
+with smooth $f(x)$ and closed convex $h(x)$. 
+\subsection*{First View}
+Naturally we want to update our step by gradient descent, but the non-differentiablility of $h(x)$ stops us from doing so. As a result, we take a step back and try to analyze the approximation problem by substituting $f(x)$ with $f_k(x)$, where
+\begin{equation*}
+    f_k(x) = f(x_k) + \langle \nabla f(x_k), x-x_k \rangle + \frac{1}{2\alpha_k} \| x - x_k \|^2
+\end{equation*}
+We introduce iteration update with footnote $k$ because we are not making exact minimization calculation but an approximation, and hoping to obtain some convergence behavior with big $k$. Right now the problem of exact minimization is reduced to the following iteration update
+\begin{equation*}
+    x_{k+1} \leftarrow \argmin_{x \in \mathbb{R}^d} f_k(x) + h(x)
+\end{equation*}
+By using the necessary condition lemma \ref{lemma:CompositeMinNecessary}, we derive the following relation
+\begin{equation*}
+    \frac{x_k - \alpha_k \nabla f(x_k) - x_{k+1}}{\alpha_k} \in \partial h(x_{k+1})
+\end{equation*}
+This is quite indicative, because by referring to corollary \ref{corollary:ProximalOperatorNecessarySufficient}, we actually get
+\begin{equation}
+    x_{k+1} = prox_{\alpha_k h}(x_k - \alpha_k \nabla f(x_k)) \label{eq:ProximalUpdateRule}
+\end{equation}
+
+\subsection*{Second View}
+The second interpretation stems from equation \ref{eq:ProximalUpdateRule}. It is easy to see that the input of the proximal operator is in fact one step of gradient descent with respect to $f(x)$ only. Then based on this gradient descent updated point $x_k - \alpha_k \nabla f(x_k)$, we try to update $h(x)$ with an additional penalty who prevents the second update from going too crazy. The second step is achieved through the proximal operator. 
+
+\subsection*{To Be Resolved}
+
+
+\section{Forward-Backward Method}
+Now let's consider the general optimization problem
+\begin{equation*}
+    \min_{x \in \mathbb{R}^d} f(x) + h(x)
+\end{equation*}
+with smooth $f(x)$ and closed convex $h(x)$. Recall that gradient descent can be derived as a proximal operator, similarly, for this problem we can derive the following linear approximation
+\begin{equation*}
+    x_{k+1} \leftarrow \argmin_{x \in \mathbb{R}^d} \underbrace{h(x)}_{\text{closed convex}} + \underbrace{f(x_k) + \langle \nabla f(x_k), x-x_k \rangle + \frac{1}{2\alpha_k} \| x - x_k \|^2}_{\text{smooth}}
+\end{equation*}

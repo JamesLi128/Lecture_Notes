@@ -14,3 +14,5 @@
 \contentsline {chapter}{\numberline {3}Proximal Method}{13}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Motivating Problems}{13}{section.3.1}%
 \contentsline {section}{\numberline {3.2}Proximal Operator}{13}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Interpretation on Proximal Operator}{14}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Forward-Backward Method}{15}{section.3.4}%
