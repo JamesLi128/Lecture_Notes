@@ -114,8 +114,6 @@ This is quite indicative, because by referring to corollary \ref{corollary:Proxi
 \subsection*{Second View}
 The second interpretation stems from equation \ref{eq:ProximalUpdateRule}. It is easy to see that the input of the proximal operator is in fact one step of gradient descent with respect to $f(x)$ only. Then based on this gradient descent updated point $x_k - \alpha_k \nabla f(x_k)$, we try to update $h(x)$ with an additional penalty who prevents the second update from going too crazy. The second step is achieved through the proximal operator. 
 
-\subsection*{To Be Resolved}
-
 
 \section{Forward-Backward Method}
 Now let's consider the general optimization problem
@@ -125,4 +123,34 @@ Now let's consider the general optimization problem
 with smooth $f(x)$ and closed convex $h(x)$. Recall that gradient descent can be derived as a proximal operator, similarly, for this problem we can derive the following linear approximation
 \begin{equation*}
     x_{k+1} \leftarrow \argmin_{x \in \mathbb{R}^d} \underbrace{h(x)}_{\text{closed convex}} + \underbrace{f(x_k) + \langle \nabla f(x_k), x-x_k \rangle + \frac{1}{2\alpha_k} \| x - x_k \|^2}_{\text{smooth}}
+\end{equation*}
+
+TBD
+
+\section{Relation between Newton's Method and Projection}
+Let sets $C_1 = \{ (x, y) : y \leq 0\}$ and $C_2 = epi(f)$ with $f(x)$ closed convex. For the sake of arguement, let's assume there exists some $x^* \in \mathbb{R}$ such that $f(x^*) = 0$ and $f(x) > 0, \; \forall x > x^*$. In other words, we will analyze the Newton's method from the right hand side of $x^*$.
+
+As shown in the figure, we start at some $p_n$ on the boundary of $C_2$, where $p_n = (x_n, f(x_n)) \in epi(f)$. According to the update rule of Newton's method, we have
+\begin{equation*}
+    x_{n+1} \leftarrow x_n - \frac{f(x_n)}{s_n}
+\end{equation*}
+where $s_n \in \partial f(x_n)$. We will prove that, by firstly projecting $p_n$ from $C_2$ to $C_1$ we obtain $(x_n, 0) = Proj_{C_1}(p_n)$, and then projecting $(x_n, 0)$ back to $C_2$ where $p_{n+1} = Proj_{C_2}((x_n, 0)) = (\hat{x}_{n+1}, f(\hat{x}_{n+1}))$, we have 
+\begin{equation*}
+    x_{n+1} = \hat{x}_{n+1}
+\end{equation*}
+
+To begin with, it's quite easy to see why the projection of $p_n$ to $C_1$ is $(x_n, 0)$. Then, a key observation is that the direction of $(x_n, 0) - p_{n+1}$ points to the same direction as the normal vector of the supporting hyperplane at $p_{n+1}$. 
+
+By denoting $(a, r)$ as the normal vector associated with the supporting hyperplane at $p_{n+1}$, we know that there exists some $\lambda > 0$ such that $p_{n+1} + \lambda (a, r) = (x_n, 0)$. This results in the following system
+\begin{align*}
+    \left\{
+    \begin{array}{ll}
+        x_{n+1} + \lambda a &= x_n \\
+        f(x_{n+1}) + \lambda r &= 0 \\
+    \end{array}
+    \right.
+\end{align*}
+This gives us
+\begin{equation*}
+    x_{n+1} = x_n + \frac{f(x_)}{}
 \end{equation*}
