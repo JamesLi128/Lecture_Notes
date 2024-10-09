@@ -125,7 +125,151 @@ with smooth $f(x)$ and closed convex $h(x)$. Recall that gradient descent can be
     x_{k+1} \leftarrow \argmin_{x \in \mathbb{R}^d} \underbrace{h(x)}_{\text{closed convex}} + \underbrace{f(x_k) + \langle \nabla f(x_k), x-x_k \rangle + \frac{1}{2\alpha_k} \| x - x_k \|^2}_{\text{smooth}}
 \end{equation*}
 
-TBD
+Then by repeating what we have done in the previous section, we have the backward
+\begin{equation*}
+    \frac{x_k - \alpha_k\nabla f(x_k) - x_{k+1}}{\alpha_k} \in \partial h(x_{k+1})
+\end{equation*}
+which can be rewritten in terms of the proximal operator as the forward
+\begin{equation*}
+    x_{k+1} \leftarrow prox_{\alpha_kh}(x_k - \alpha_k \nabla f(x_k))
+\end{equation*}
+\begin{remark}
+    The forward-backward method is used to find out the approximate minimizer for the big problem of minimizing $f(x) + h(x)$, but it's only useful when solving the prox is efficient.
+\end{remark}
+
+\begin{example}
+    If we take $h(x) = \| x \|_1$, then we have
+    \begin{align*}
+        \big[ prox_{\alpha \| \cdot \|_1} \big]_i = 
+        \left\{
+        \begin{array}{ll}
+            x_i + \alpha&, x_i < -\alpha \\
+            0&, x_i \in [-\alpha, \alpha] \\
+            x_i - \alpha&, x_i > \alpha \\
+        \end{array}
+        \right.
+    \end{align*}
+\end{example}
+
+Now we examine the convergence guarantee for the forward-backward method. First, we define the gradient mapping by
+\begin{equation*}
+    G_\alpha(x) = \frac{1}{\alpha}(x - prox_{\alpha h}(x - \alpha \nabla f(x))) = \frac{x - x^+}{\alpha}
+\end{equation*}
+
+Observe that if $x$ is the minimizer, then with $x^+ = prox_{\alpha h}(x - \alpha \nabla f(x))$ we must have 
+\begin{equation*}
+    0 = G_\alpha(x) \in \partial h(x^+) + \{ \nabla f(x) \}
+\end{equation*}
+
+This implied $x = x^+$ and $-\nabla f(x) \in \partial h(x^+)$. As a result, in practice we will use $\| G_\alpha(x) \|$ as the measure of optimality. And we have the following descent lemma 2.0
+\begin{lemma}[Descent Lemma for FBM]
+    Assume $f(x)$ is L-smooth, $h(x)$ closed convex, then for all $x \in \mathbb{R}^d$ we have
+    \begin{equation*}
+        (f + h)(x^+) \leq (f + h)(x) - (\alpha - \frac{L\alpha^2}{2})\|G_\alpha(x)\|^2
+    \end{equation*}
+\end{lemma}
+
+As a corollary, we can use descent lemma to bound the average norm of $G_\alpha(x)$
+\begin{corollary}
+    For $f(x)$ L-smooth and $h(x)$ closed convex, by setting $\alpha = \frac{1}{L}$ in FBM, we have
+    \begin{equation*}
+        \frac{1}{T}\sum_{i=1}^{T-1}\| G_{1/L}(x_k)\|^2 \leq \frac{2L}{T}((f+h)(x_0) - \min_{x \in \mathbb{R}^d} (f+h))
+    \end{equation*}
+\end{corollary}
+
+Furthurmore, if we add convexity to $f(x)$ we have better guarantee.
+\begin{theorem}
+    Let $f(x)$ be both convex and L-smooth and $h(x)$ being closed such that $x^* \in \argmin (f + h)(x)$, then the iterates of FBM with $\alpha_k = \frac{1}{L}$ satisfy
+    \begin{equation*}
+        (f + h)(x_{k+1}) - \min (f + h) \leq \frac{L}{2k}\|x_0 - x^*\|^2
+    \end{equation*}
+\end{theorem}
+
+On top of that, if we enforce strong convexity on $f(x) + h(x)$, we get upper bound in terms of 
+\begin{theorem}
+    If $f+h$ is $\mu$-strongly convex, then we have 
+    \begin{equation*}
+        (f+h)(x_{k+1}) - \min f+h \leq \frac{L}{\mu k} [(f+h)(x_0) - \min (f+h)]
+    \end{equation*}
+\end{theorem}
+
+Finally, we have the accelerated FBM and its convergence guarantee.
+
+\begin{minipage}{0.8\textwidth}  % Set width to 80% of text width
+    \centering
+    \begin{algorithm}[H]
+        \caption{Accelerated Forward Backward Method}
+        \KwIn{$x_0$, $f(x)$, $h(x)$, $K$, $L$} % Input
+        \KwOut{Minimizer $x_K$}  % Output
+    
+        \textbf{Initialize:} $\lambda_0 \gets 0$, $y_0 \gets x_0$\;
+    
+        \For{$k = 0$ \KwTo $K-1$}{
+            $y_{k+1} \gets prox_{\alpha h}(x_k - \frac{1}{L}\nabla f(x_k))$\;
+            $\lambda_{k+1} \gets \frac{1 + \sqrt{1 + 4\lambda_k^2}}{2}$\;
+            $\gamma_k \gets \frac{\lambda_k - 1}{\lambda_{k+1}}$\;
+            $x_{k+1} \gets y_{k+1} + \gamma_k (y_{k+1} - y_k)$\;
+        }
+        \Return{$x_K$}
+    \end{algorithm}
+    \vspace{2em}
+\end{minipage}
+
+\begin{theorem}
+    Given any convex and L-smooth $f(x)$ and closed convex $h(x)$, by setting $\alpha_k = 1/L$, the iterates of AFBM satisfy
+    \begin{equation*}
+        (f+h)(y_k) - \min(f+h) \leq \frac{2L \|x_0 - x^*\|^2}{(k+1)^2}
+    \end{equation*}
+\end{theorem}
+
+\section{Constrained Optimization and Alternating Projection}
+Sometimes we find it practical to restrain the search space to be within a set $S$ instead of the entire $\mathbb{R}^d$. In this case, the optimization problem is formulated as
+\begin{equation*}
+    \min_{x \in S} f(x)
+\end{equation*}
+
+However, with a little help from the idicator function, we can easily transform that into an unconstrained optimization problem
+\begin{equation*}
+    \min_{x \in \mathbb{R}^d} f(x) + \iota_S(x)
+\end{equation*}
+
+Moreover, if set $S$ is convex, which implies the convexity of $\iota_S(x)$, then this problem can be reduced to what we just talked about in the previous section. One interesting observation is that, for any set $S$ we have the following interpretation.
+\begin{lemma}
+    $$prox_{\alpha \iota_S}(x) = Proj_S(x)$$
+\end{lemma}
+
+This means, in this case, the forward-backward method is equivalent to projected gradient descent, which means
+\begin{equation*}
+    x_{k+1} \leftarrow Proj_S(x_k - \alpha_k \nabla f(x_k))
+\end{equation*}
+
+From this point, we look at a new constrained problem, with convex sets $C_1$ and $C_2$ 
+\begin{equation*}
+    \min_{x \in C_1, y \in C_2} \| x - y \|
+\end{equation*}
+
+Then with $P_{C_i}$ as the projection to set $C_i$, John Von Novmann proposes the following update rule, with an arbitrary starting point $x_0$, we project between/alternate between $C_1$ and $C_2$.
+\begin{equation*}
+    x_{k+1} \leftarrow P_{C_1}P_{C_2}(x_k)
+\end{equation*}
+
+With the number of iteration sufficiently large, we have one of the following two happens
+\begin{enumerate}
+    \item It converges to some point in $C_1 \cap C_2$
+    \item $\|x - y\|$ converges to some positive number
+\end{enumerate}
+In both cases, with $F$ being the alternating projection, what we are trying to find is a fixed point $x^*$ where 
+\begin{equation*}
+    x^* = F(x^*)
+\end{equation*}
+
+Moreover, we can derive the following average convergence without any additional information
+\begin{theorem}
+    The iterates of alternating projection satisfy
+    \begin{equation*}
+        \frac{1}{T}\sum_{k=0}^{T-1}\|x_k - F(x_k)\|^2 \leq \frac{\|x_0 - x^*\|^2}{T}
+    \end{equation*}
+\end{theorem}
 
 \section{Relation between Newton's Method and Projection}
 Let sets $C_1 = \{ (x, y) : y \leq 0\}$ and $C_2 = epi(f)$ with $f(x)$ closed convex. For the sake of arguement, let's assume there exists some $x^* \in \mathbb{R}$ such that $f(x^*) = 0$ and $f(x) > 0, \; \forall x > x^*$. In other words, we will analyze the Newton's method from the right hand side of $x^*$.
