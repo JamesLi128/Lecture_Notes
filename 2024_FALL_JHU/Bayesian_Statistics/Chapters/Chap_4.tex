@@ -163,3 +163,37 @@ In the previous section, we have seen how the semi-conjugate case works for mode
 \end{center}
 
 \subsection{More on Wishart}
+\subsubsection*{Expectations}
+For the precision matrix following Wishart distribution $\Sigma^{-1} \sim Wishart(\nu_0, S_0^{-1})$, we have 
+\begin{equation*}
+    \mathbb{E}[\Sigma^{-1}] = \nu_0 S_0^{-1} \qquad \mathbb{E}[\Sigma] = \frac{1}{\nu_0 - p - 1}S_0
+\end{equation*}
+
+\subsection*{Parametrization}
+Let $\Sigma_0$ be the covariance matrix that we believe in. In general, we can use historical data to estimate this empirical matrix.
+\begin{enumerate}
+    \item Strong Prior(big $\nu_0$):  $S_0 = (\nu_0 - p - 1)\Sigma_0$
+    \item Weak Prior: $\nu_0 = p + 2$ and $S_0 = \Sigma_0$
+\end{enumerate}
+This parametrization ensures $\mathbb{E}[\Sigma] = \Sigma_0$
+
+\subsection*{Full Conditional}
+The sampling model is
+\begin{align*}
+    p(\vec{Y} | \theta, \Sigma) &= (2\pi)^{-np/2}|\Sigma|^{-n/2} \exp\{ -1/2\sum_{i=1}^{n}(y_i - \theta)^T\Sigma^{-1}(y_i - \theta)\} \\
+    &\propto \exp \{-1/2tr(Y_\theta\Sigma^{-1}Y_\theta^T)\} \\
+    &= \exp \{-1/2tr(Y_\theta^TY_\theta\Sigma^{-1})\} \\
+    &= \exp \{-1/2tr(S_\theta\Sigma^{-1})\}
+\end{align*}
+
+Using this, the full conditional is
+\begin{align*}
+    p(\Sigma | \vec{Y}, \theta) &\propto p(\vec{Y} | \theta, \Sigma) \cdot p(\Sigma) \\
+    &\propto |\Sigma|^{-(\nu_0 + n + p + 1)/2} \exp\{-tr([S_0 + S_\theta]\Sigma^{-1})/2\}
+\end{align*}
+
+\subsection*{Gibbs Sampling Marginal Distribution}
+\begin{equation*}
+    \theta | \vec{Y}, \Sigma \sim MVN(\mu_n, \Lambda_n), \qquad \Sigma | \vec{Y}, \theta \sim InvWishart(\nu_n, S_n^{-1})
+\end{equation*}
+where $\mu_n = \Lambda_n (\Lambda_0^{-1}\mu_0 + n\Sigma^{-1}\bar{y})$, $\Lambda_n^{-1} = \Lambda_0^{-1} + n\Sigma^{-1}$, and $\nu_n = \nu_0 + n$, $S_n = S_0 + S_\theta = S_0 + \sum_{i=1}^{n}(y_i - \theta)(y_i - \theta)^T$
