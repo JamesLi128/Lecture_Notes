@@ -1,1 +1,119 @@
 \chapter{Blackbox Convex Optimization}
+
+Previous methods were based the assumption that we have access to the explicit expression of the function we are trying to optimize. This means we can not only derive its gradient when it's smooth, but sometimes the entire set of subdifferential when it's not. However, this luxury is something we can't afford in some cases. For example, we usually don't know how to write out the explicit expression of the function a neural network computes, but by autograd we can always get it's gradient/subgradient based on the smoothness condition by chain rule. In this case, we only have access to an oracle that tells us the gradient evaluated at some point. In this chapter, we are going to find out what gurantees we can give for oracle, aka blackbox, based convex optimization. The convexity constraint is natural in the sense that we need some additional structure to compensate for the lack of information on the closed form in order to yield good results. 
+
+\section{Exact Gradient Oracle}
+In this section, we assume we have access to the exact gradient oracle who gives us the gradient or at least one of the subgradients at any point, i.e. given any $x \in \mathbb{R}^d$, it works as follows:
+\begin{equation*}
+    x \mapsto (f(x), g(x))
+\end{equation*}
+where $f(x)$ is the function value and $g(x)$ the direction. A natural idea of algorithm is to mimic what we have done before, 
+\begin{equation*}
+    x_{k+1} \leftarrow x_k - \alpha_k g(x_k)
+\end{equation*}
+
+However, things go to different directions. In nonsmooth optimization, we don't have the followings:
+\begin{example}[Guarantees with constant step size]
+    Let $f(x) = |x|$ and take $x_0 = 0.5\alpha$, then $x_k$ jumps between two points $\pm 0.5\alpha$.
+\end{example}
+\begin{example}[Guarantee for descent]
+    Take $f(x) = 3|x_1| + |x_2|$ and $x_0 = (0, 1)^T$, then because the oracle only returns one of the subgradient in $\partial f(x_0) = \{(3t, 1) : t \in [-1, 1]\}$, there's no guarantee that the next step will go into the direction of decrease.     
+\end{example}
+
+The good thing is there are ways we can get around with this, firstly, we can rephrase the update rule as 
+\begin{equation*}
+    x_{k+1} \leftarrow \argmin_{x \in \mathbb{R}^d} \{ f(x_k) + \langle g(x_k), x - x_k \rangle + \frac{1}{2\alpha_k}\|x - x_k\|^2\} = prox_{\alpha_k h_k(x)}(x_k)
+\end{equation*}
+where $h_k(x) = f(x) + \langle g(x_k), x - x_k \rangle$. 
+
+Also, we can narrow down our area of interest by excluding one of the half spaces. Say point $x$ is not an $\epsilon$-optimal, i.e. $f(x) - \min f(x) > \epsilon$, then it's equivalent to $f(x) - \epsilon > \min f(x)$. If $x'$ is such that $\langle g, x' - x \rangle \geq -\epsilon$, then by convexity we have
+\begin{equation*}
+    f(x') \geq f(x) + \langle g, x' - x \rangle \geq f(x) - \epsilon > \min f(x)
+\end{equation*}
+This is equivalent saying the minimizer $x^* \in H^\leq(g, -\epsilon + \langle g, x \rangle)$
+
+But this is far from being satisfactory, the following lemma gives us some control on the distance to the optimizer.
+\begin{lemma}
+    Assume $f: \mathbb{R}^d \rightarrow \mathbb{R}$ is convex with minimizer $x^*$. Then the iterates of subgradient descent satisfactory
+    \begin{eqnarray*}
+        \| x_{k+1} - x^* \|^2 \leq \|x_k - x^*\|^2 - 2 \alpha_k (f(x_k) - f(x^*)) + \alpha_k^2\|g_k\|^2
+    \end{eqnarray*}
+\end{lemma}
+\begin{proof}
+    Just write out the update step and expand the L2 norm, then use convexity to substitute the subgradient with the difference of function values.
+\end{proof}
+
+Observe that we could have step-wise decrease if $- 2 \alpha_k (f(x_k) - f(x^*)) + \alpha_k^2\|g_k\|^2 < 0$. We will use the simple proposition to prove the theorem followed.
+\begin{proposition}
+    If $f(x)$ is M-Lipschitz, then for all $x \in \mathbb{R}^d$ and $g \in \partial f(x)$, we have $\|g\| \leq M$.
+\end{proposition}
+
+\begin{theorem}
+    Assume that $f: \mathbb{R}^d \rightarrow \mathbb{R}$ is M-Lipschitz and $x^* \in \argmin f(x)$, then the iterates of subgradient descent satisfy
+    \begin{equation*}
+        \min_{k \leq T}\{f(x_k) - \min f(x)\} \leq \frac{\|x_0 - x^*\|^2 + M^2 \sum_{i=1}^{T}\alpha_i^2}{2\sum_{i=1}^{T}\alpha_i}
+    \end{equation*}
+    In particular, if $\sum \alpha_i \rightarrow \infty$ and $\sum \alpha_i^2$ converges, we have $f(x_k) \rightarrow \min f(x)$
+\end{theorem}
+\begin{proof}
+    Use the previous two results and then sum up all the inequalities up to $T$.
+\end{proof}
+
+Now the following corollary explains why constant step size can be problematic.
+\begin{corollary}
+    If we set $\alpha_k = \alpha$ constant, then 
+    \begin{equation*}
+        \min \{f(x_k) - f(x^*)\} \leq \frac{\|x_0 - x^*\|^2}{2\alpha T} + \frac{M\alpha}{2}
+    \end{equation*}
+\end{corollary}
+
+Although with more steps the first error goes to zero, the second systematic error won't be affected. And with a little tweek on the parameters, we have the following result.
+\begin{corollary}
+    If set $\alpha = \epsilon / M^2$ and $T \geq \frac{M^2}{\epsilon^2} \|x_0 - x^*\|^2$, then we have 
+    \begin{equation*}
+        \min_{1 \leq k \leq T} \{f(x_k) - f(x^*)\} \leq \epsilon
+    \end{equation*}
+\end{corollary}
+
+This means we need iteration $T \sim O(\frac{1}{\epsilon^2})$ to find an $\epsilon$-minimum. Recall that for smooth functions we have $T \sim O(\frac{1}{\epsilon})$ for GD and $T \sim O(\frac{1}{\sqrt{\epsilon}})$ for AGD. And similarly, we have an upper bound on the rate of convergence for subgradient oracle.
+
+\begin{theorem}
+    There exists a convex M-Lipschitz function and a subgrad oracle such that any algorithm which gives
+    \begin{equation*}
+        x_{k+1} \in x_0 + span\{g(x_0), \ldots, g(x_k)\}
+    \end{equation*}
+    we have a lower bound on the different in function value
+    \begin{equation*}
+        f(x_k) - \min f(x) \geq \frac{M \|x_0 - x^*\|}{2(2 + \sqrt{k+1})}
+    \end{equation*}
+\end{theorem}
+
+\section{Stochastic Gradient Oracle}
+The difference is that now we only have an estimation of the true underlying gradient evaluated at any point. In other words. given any $x \in \mathbb{R}^d$,
+\begin{equation*}-
+    x \mapsto g(x, z)
+\end{equation*}
+where $z$ is a random variable that is iid drawn at each call satisfying $\mathbb{E}_z[g(x, z)] = \nabla f(x)$ and $\mathbb{E}_z[\|g(x,z) - \nabla f(x)\|^2] \leq \sigma^2$, this means we require the oracle to be both unbiased have bounded variance. With this oracle, a natural update algorithm would be
+\begin{equation*}
+    x_{k+1} \leftarrow x_k - \alpha_k g_k
+\end{equation*}
+we will see what kinds of convergence guarantees we can offer for nonconvex functions.
+
+\begin{theorem}
+    Let $f(x) : \mathbb{R}^d \rightarrow \mathbb{R}$ be L-smooth, and $g(\cdot, \cdot)$ be an unbiased oracle with bounded variance. Then the iterates of SGD with $\alpha_k \in (0, \frac{2}{L})$ satisfy
+    \begin{equation*}
+        \mathbb{E}[\min_{k \leq T} \|\nabla f(x_k)\|^2] \leq \frac{(f(x_0) - \min f(x)) + \frac{\sigma^2L}{2}\sum_{k=0}^{T}\alpha_k^2}{\sum_{k=0}^{T}\alpha_k(1 - \frac{\alpha_k L }{2})}
+    \end{equation*}
+\end{theorem}
+
+One direct consequence is that by setting $\alpha_k = \frac{1}{L\sqrt{T+1}}$, then we have the left hand side $\sim O(\frac{1}{\sqrt{T+1}})$. This is not fast of course, but with convexity we can hope to get something better. 
+\begin{theorem}
+    With the same setting as before and further assume $f(x)$ to be convex and $x^* \in \argmax f(x)$. By setting $\alpha_k = \alpha = \frac{1}{L}$, the iterates of SGD satisfy
+    \begin{equation*}
+        \mathbb{E}[\min_{k \leq T} f(x_k) - f(x^*)] \leq \frac{\|x_0 - x^*\|^2}{2\alpha(T+1)} + \alpha\sigma^2
+    \end{equation*}
+    In particular, if $\alpha = \frac{1}{\sqrt{T+1}}$ and $T > L^2$
+    \begin{equation*}
+        \mathbb{E}[\min_{k \leq T}f(x_k) - f(x^*)] \leq \frac{\|x_0 - x^*\|^2 + 2\sigma^2}{2\sqrt{T+1}}
+    \end{equation*}
+\end{theorem}

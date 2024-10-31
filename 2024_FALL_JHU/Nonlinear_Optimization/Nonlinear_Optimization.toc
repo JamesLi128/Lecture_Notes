@@ -19,3 +19,5 @@
 \contentsline {section}{\numberline {3.5}Constrained Optimization and Alternating Projection}{17}{section.3.5}%
 \contentsline {section}{\numberline {3.6}Relation between Newton's Method and Projection}{18}{section.3.6}%
 \contentsline {chapter}{\numberline {4}Blackbox Convex Optimization}{19}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Exact Gradient Oracle}{19}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Stochastic Gradient Oracle}{21}{section.4.2}%
