@@ -21,3 +21,5 @@
 \contentsline {chapter}{\numberline {4}Blackbox Convex Optimization}{19}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Exact Gradient Oracle}{19}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Stochastic Gradient Oracle}{21}{section.4.2}%
+\contentsline {chapter}{\numberline {5}Second-Order Method}{23}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Newton's Method}{23}{section.5.1}%

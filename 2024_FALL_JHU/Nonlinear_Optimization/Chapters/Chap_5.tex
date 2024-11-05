@@ -1,0 +1,30 @@
+\chapter{Second-Order Method}
+In this section we explore how the second order information can be helpful. We will talk about Newton's method, Quasi-Newton, Conjugate Gradient, and Trust Region Method. 
+
+\section{Newton's Method}
+Given any function $F: \mathbb{R} \rightarrow \mathbb{R}$ and an initial point $x_0$, the update rule of Newton's method is
+\begin{equation*}
+    x_{k+1} \leftarrow x_k - \frac{F(x_k)}{F'(x_k)}
+\end{equation*}
+This algorithm is used to find the solution of $F(x) = 0$. So if we take $F = f'(x)$, then Newton's method helps us find first-order critical points. The update rule reduces to 
+\begin{equation*}
+    x_{k+1} \leftarrow x_k - \frac{f'(x_k)}{f''(x_k)}
+\end{equation*}
+In fact, we can rephrase it as
+\begin{equation*}
+    x_{k+1} = \argmin_x f(x_k) + f'(x_k)(x-x_k) + f''(x_k)(x-x_k)^2
+\end{equation*}
+This is a local quadratic approximation, so if $f''(x_k) > 0$ we are guaranteed with a unique minimizer. 
+
+Now we take a little detour to introduce the naming of convergence rate
+
+\begin{note}
+    Given any $\delta_k \rightarrow 0$, this $\delta_k$ can be anything related to convergence rate, like the objective gap, distance to the solution, or the norm of gradient, we have the following 4 types of convergence rate:
+    \begin{enumerate}
+        \item $\delta_k$ converges linearly if $\exists c \in (0, 1), N \geq 0$ such that $\forall k \geq N$, we have $\delta_{k+1} \leq c \cdot \delta_k$
+        \item $\delta_k$ converges sublinearly if no such $c$ exists
+        \item $\delta_k$ converges superlinearly if $\exists c_k \in [0, 1), N \geq 0$ such that $c_k \rightarrow 0$ and $\forall k \geq N$, we have $\delta_{k+1} \leq c_k \cdot \delta_k$
+        \item $\delta_k$ converges quadratically if $\exists c \in (0, 1), N \geq 0$ such that $\forall k \geq N$, we have $\delta_{k+1} \leq c \cdot \delta_k^2$
+    \end{enumerate}
+    Observe that quadratic convergence implies superlinearly convergence if we take $c_k = c \cdot \delta_k$
+\end{note}

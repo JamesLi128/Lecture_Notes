@@ -105,6 +105,17 @@ we will see what kinds of convergence guarantees we can offer for nonconvex func
         \mathbb{E}[\min_{k \leq T} \|\nabla f(x_k)\|^2] \leq \frac{(f(x_0) - \min f(x)) + \frac{\sigma^2L}{2}\sum_{k=0}^{T}\alpha_k^2}{\sum_{k=0}^{T}\alpha_k(1 - \frac{\alpha_k L }{2})}
     \end{equation*}
 \end{theorem}
+\begin{proof}
+    Since it's nonconvex, to relate the adjacent function values, we need Taylor's approximation. This gives 
+    \begin{equation*}
+        f(x_{k+1}) \leq f(x_k) + \langle \nabla f(x_k), x_{k+1} - x_{k} \rangle + \frac{L}{2}\|x_{k+1} - x_k\|^2
+    \end{equation*}
+    First, we write out $x_{k+1} = x_k - \alpha_k g_k$. Then use the Law of Total Expectation, by taking $\mathbb{E}[\cdot | x_k]$ followed by $\mathbb{E}[]$ and rewrite $\|g_k\|^2 = \|g_k - \nabla f(x_k) + \nabla f(x_k)\|^2$, we get an inequality
+    \begin{equation*}
+        \alpha_k(1 - \frac{\alpha_kL}{2})\mathbb{E}[\nabla f(x_k)] \leq \mathbb{E}[f(x_{k})] - \mathbb{E}[f(x_{k+1})] + \frac{\sigma^2L}{2}\alpha_k^2
+    \end{equation*}
+    By adding all of the these up to $T$, we get the result while the left hand side is $\min_{k\leq T}\mathbb{E}[\|\nabla f(x_k)\|]$. Notice that $\min_{k \leq T}  \|\nabla f(x_k)\| \leq \|\nabla f(x_k)\|$ for all $k$, then this gives $\mathbb{E}[\min_{k \leq T} \|\nabla f(x_k)\|^2] \leq \min_{k \leq T}[\mathbb{E} \|\nabla f(x_k)\|^2]$
+\end{proof}
 
 One direct consequence is that by setting $\alpha_k = \frac{1}{L\sqrt{T+1}}$, then we have the left hand side $\sim O(\frac{1}{\sqrt{T+1}})$. This is not fast of course, but with convexity we can hope to get something better. 
 \begin{theorem}
@@ -117,3 +128,32 @@ One direct consequence is that by setting $\alpha_k = \frac{1}{L\sqrt{T+1}}$, th
         \mathbb{E}[\min_{k \leq T}f(x_k) - f(x^*)] \leq \frac{\|x_0 - x^*\|^2 + 2\sigma^2}{2\sqrt{T+1}}
     \end{equation*}
 \end{theorem}
+\begin{proof}
+    Follow a similar path but apply Atlas inequality after Taylor. Then the bounded variance condition gives us 
+    \begin{equation*}
+        \|\nabla f(x_k)\|^2 \geq \mathbb{E}[\|g_k\|^2 | x_k] - \sigma^2
+    \end{equation*}
+    We also have $\|x_{k+1} - x^*\|^2 = \|x_k - x^*\|^2 - 2\alpha\langle x_k - x^*, g_K \rangle + \alpha^2\|g_k\|^2$. 
+\end{proof}
+
+\subsection*{Acceleration?}
+Unfortunately, no acceleration for SGD because even for convex case, there's systematic noise $\frac{\sigma^2}{\sqrt{T+1}}$ that we can't do nothing about.
+
+\subsection*{Case Study: Random Coordinates}
+This oracle depends on $i \sim Unif(1, \ldots, d)$, such that
+\begin{equation*}
+    g(x, i) = d \cdot \frac{\partial f}{\partial x_i}(x)e_i
+\end{equation*}
+
+\begin{theorem}
+    Given $f(x): \mathbb{R}^d \rightarrow \mathbb{R}$ L-smooth, then SGD with the above oracle with $\alpha_k = \frac{1}{Ld}$ yields
+    \begin{equation*}
+        \mathbb{E}[\min_{k\leq T} \|\nabla f(x_k)\|^2] \leq \frac{2Ld}{T}(f(x_0) - \min f)
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    To prove this, we need the following observation:
+    \begin{equation*}
+        \mathbb{E}[\frac{\partial f}{\partial x_i}(x_k)^2 | x_k] = \frac{1}{d}\sum_{i=1}^{d}\frac{\partial f}{\partial x_i}(x_k) = \frac{1}{d}\|\nabla f(x_k)\|^2
+    \end{equation*}
+\end{proof}
